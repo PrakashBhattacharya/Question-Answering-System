@@ -8,7 +8,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react)](https://react.dev/)
 [![Dataset](https://img.shields.io/badge/Dataset-SQuAD%202.0-purple)](https://rajpurkar.github.io/SQuAD-explorer/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
