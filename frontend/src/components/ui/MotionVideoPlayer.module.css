@@ -1,0 +1,307 @@
+.playerContainer {
+  position: relative;
+  width: 100%;
+  /* Ensure the container has real height before the canvas measures itself.
+     The aspectRatio prop is applied as inline style; this is the CSS fallback. */
+  aspect-ratio: 16 / 9;
+  min-height: 120px;
+  border-radius: var(--t-radius-card, 16px);
+  overflow: hidden;
+  background: var(--t-card-bg, #08090d);
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  box-shadow: var(--t-card-shadow, 0 16px 48px rgba(0, 0, 0, 0.65));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.playerContainer:hover {
+  border-color: var(--t-accent-1, rgba(94, 106, 210, 0.4));
+  box-shadow: var(--t-card-shadow, 0 24px 64px rgba(0, 0, 0, 0.75));
+}
+
+.video, .themeCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlayRim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25) 50%, transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.headerTag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.6rem;
+  background: var(--t-bg-surface, rgba(0, 0, 0, 0.65));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.12));
+  border-radius: var(--t-radius-pill, 9999px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--t-accent-1, #34d399);
+  box-shadow: 0 0 8px var(--t-accent-1, #34d399);
+  animation: pulse-ring 2s infinite ease-in-out;
+}
+
+.tagText {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--t-text-1, #e2e8f0);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Hover controls */
+.hoverBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.playerContainer:hover .hoverBar {
+  opacity: 1;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.titleIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.titleText {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--t-text-1, #f1f5f9);
+  font-family: var(--t-font-mono, monospace);
+}
+
+.controlBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.12));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.2));
+  color: var(--t-text-1, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.controlBtn:hover {
+  background: var(--t-accent-1, rgba(99, 102, 241, 0.6));
+  border-color: var(--t-accent-1, rgba(99, 102, 241, 0.9));
+  transform: scale(1.1);
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulseDot { animation: none; }
+  .playerContainer:hover { transform: none; }
+}
+
+/* Theme specifics */
+.theme_void {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.95);
+  background: #000000 !important;
+}
+
+.theme_void .headerTag {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(14, 14, 14, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.theme_void .pulseDot {
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.theme_void .tagText {
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.04em;
+}
+
+.theme_void .hoverBar {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.96) 100%);
+}
+
+.theme_void .titleIcon {
+  color: #ffffff;
+}
+
+.theme_void .titleText {
+  color: #ffffff;
+}
+
+.theme_void .controlBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.theme_void .controlBtn:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+
+.theme_cloud {
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.theme_cloud .hoverBar {
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.theme_cloud .titleText {
+  color: #0f172a;
+}
+
+.theme_cloud .controlBtn {
+  color: #0f172a;
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+.theme_ember {
+  border-radius: 18px;
+  border: 1px solid #fed7aa;
+  box-shadow: 0 12px 35px rgba(180, 83, 9, 0.08);
+}
+
+.theme_ember .hoverBar {
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 248, 240, 0.95) 100%);
+}
+
+.theme_ember .titleText {
+  color: #1c0a00;
+}
+
+.theme_ember .controlBtn {
+  color: #1c0a00;
+  background: #ffffff;
+  border-color: #fed7aa;
+}
+
+.theme_pixelcraft {
+  border-radius: 0;
+  border: 3px solid #3e6b3e;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.theme_pixelcraft .headerTag {
+  border-radius: 0;
+  border: 2px solid #4caf50;
+  background: #142016;
+}
+
+.theme_pixelcraft .pulseDot {
+  border-radius: 0;
+}
+
+.theme_pixelcraft .controlBtn {
+  border-radius: 0;
+  border: 2px solid #4caf50;
+}
+
+/* ── 06: IMPERIUM ("Dark Golden Royal Edition") ──────────────── */
+.theme_imperium {
+  border-radius: 12px;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(229, 199, 102, 0.2);
+  background: #000000 !important;
+}
+
+.theme_imperium .headerTag {
+  border-radius: 9999px;
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  background: rgba(8, 8, 8, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.theme_imperium .pulseDot {
+  background: #c9a227;
+  box-shadow: 0 0 8px #c9a227;
+}
+
+.theme_imperium .tagText {
+  color: #fff4c7;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+}
+
+.theme_imperium .hoverBar {
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.96) 100%);
+}
+
+.theme_imperium .titleIcon {
+  color: #c9a227;
+}
+
+.theme_imperium .titleText {
+  color: #f5e7b2;
+}
+
+.theme_imperium .controlBtn {
+  background: rgba(201, 162, 39, 0.15);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: #fff4c7;
+}
+
+.theme_imperium .controlBtn:hover {
+  background: #c9a227;
+  border-color: #e5c766;
+  color: #0b0906;
+}

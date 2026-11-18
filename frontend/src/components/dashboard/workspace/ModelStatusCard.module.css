@@ -1,0 +1,915 @@
+.card {
+  position: relative;
+  background: var(--t-card-bg, var(--bg-surface));
+  border: 1px solid var(--t-card-border, var(--border-subtle));
+  border-top: 1px solid var(--t-card-border-top, rgba(255, 255, 255, 0.18));
+  border-radius: var(--t-card-radius, 12px);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--t-card-shadow, 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 4px 20px rgba(0, 0, 0, 0.2));
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  border-color: var(--t-card-border-hover, rgba(94, 106, 210, 0.35));
+  box-shadow: var(--t-card-shadow-hover, 0 1px 0 rgba(255, 255, 255, 0.12) inset, 0 12px 40px rgba(0, 0, 0, 0.55));
+  transform: translateY(-1px);
+}
+
+.cardGlow {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(94, 106, 210, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconBadge {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(94, 106, 210, 0.14);
+  border: 1px solid rgba(94, 106, 210, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleIcon {
+  color: var(--linear-accent);
+}
+
+.title {
+  font-size: 0.96rem;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--t-text-1, #f7f8f8);
+  line-height: 1.2;
+}
+
+.titleSub {
+  font-size: 0.74rem;
+  color: var(--t-text-3, var(--text-muted));
+  font-family: var(--font-mono);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+/* Status Pill with Radar Ping */
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.statusOk {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.statusOffline {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.pulseRing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.pingWave {
+  display: none;
+}
+
+/* ── Hugging Face QA Pipeline Architecture Widget ───────────── */
+.pipelineVisual {
+  position: relative;
+  z-index: 1;
+  background: var(--t-bg-2, #0d111c);
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-lg, 14px);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.pipelineHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--t-text-3, var(--text-muted));
+  letter-spacing: 0.08em;
+  padding-bottom: 0.25rem;
+}
+
+.pipelineTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--t-text-1, #e2e8f0);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.pipelineIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.pipelineTag {
+  color: var(--t-text-4, #64748b);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.pipelineStagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.stageRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.025));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.06));
+  border-radius: 10px;
+  transition: all 0.18s ease;
+  gap: 0.75rem;
+  user-select: none;
+}
+
+.stageRow:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.stageRowActive {
+  background: var(--t-accent-subtle, rgba(99, 102, 241, 0.09));
+  border-color: var(--t-accent-border, rgba(99, 102, 241, 0.45));
+  box-shadow: 0 0 16px var(--t-accent-glow, rgba(99, 102, 241, 0.18));
+  transform: none;
+}
+
+.stageLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.stageIconWrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.02));
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.stageInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow: hidden;
+}
+
+.stageNameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.stageStep {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--t-text-4, #64748b);
+}
+
+.stageRowActive .stageStep {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.stageName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--t-text-1, #f1f5f9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stageSpec {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--t-text-3, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stageStatusPill {
+  flex-shrink: 0;
+}
+
+.liveIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--t-accent-1, #a78bfa);
+  background: var(--t-accent-subtle, rgba(139, 92, 246, 0.16));
+  border: 1px solid var(--t-accent-border, rgba(139, 92, 246, 0.4));
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.livePulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a78bfa;
+}
+
+.standbyIndicator {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--t-text-4, #64748b);
+  padding: 0.2rem 0.5rem;
+}
+
+/* Specs list */
+.specsList {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.specRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.02));
+  border-radius: 8px;
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.05));
+  font-size: 0.82rem;
+  gap: 0.75rem;
+}
+
+.specLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--t-text-2, #94a3b8);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.specDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--t-text-4, #475569);
+}
+
+.specPillBlue,
+.specPillOrange,
+.specPillYellow,
+.specPillCyan,
+.specPillGreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 0.22rem 0.55rem;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.specPillBlue {
+  background: rgba(99, 102, 241, 0.1);
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.specPillBlue code {
+  color: #c7d2fe;
+}
+
+.specPillOrange {
+  background: rgba(249, 115, 22, 0.1);
+  color: #fb923c;
+  border-color: rgba(249, 115, 22, 0.25);
+}
+
+.specIconOrange {
+  color: #f97316;
+}
+
+.specPillYellow {
+  background: rgba(234, 179, 8, 0.1);
+  color: #facc15;
+  border-color: rgba(234, 179, 8, 0.25);
+}
+
+.hfGlyph {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.specPillCyan {
+  background: rgba(6, 182, 212, 0.1);
+  color: #22d3ee;
+  border-color: rgba(6, 182, 212, 0.25);
+}
+
+.specPillGreen {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+/* Details button */
+.detailsBtn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--t-text-1, #e2e8f0);
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.035));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.2rem;
+}
+
+.detailsBtn:hover {
+  background: var(--t-accent-subtle, rgba(94, 106, 210, 0.12));
+  border-color: var(--t-accent-border, rgba(94, 106, 210, 0.35));
+  color: var(--t-text-1, #fff);
+  box-shadow: 0 0 16px var(--t-accent-glow, rgba(94, 106, 210, 0.22));
+}
+
+.detailsArrow {
+  color: var(--t-accent-1, var(--linear-accent));
+  transition: transform 0.2s ease;
+}
+
+.detailsBtn:hover .detailsArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   THEME OVERRIDES FOR MODEL STATUS CARD
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 03: CLOUD ("Clear, Calm, Productive") ───────────────────── */
+[data-theme="cloud"] .card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="cloud"] .iconBadge {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="cloud"] .titleIcon {
+  color: #2563eb;
+}
+
+[data-theme="cloud"] .title {
+  color: #0f172a;
+}
+
+[data-theme="cloud"] .titleSub {
+  color: #475569;
+}
+
+[data-theme="cloud"] .statusOk {
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+[data-theme="cloud"] .pipelineVisual {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="cloud"] .pipelineHeader {
+  color: #64748b;
+}
+
+[data-theme="cloud"] .pipelineTitle {
+  color: #0f172a;
+}
+
+[data-theme="cloud"] .pipelineIcon {
+  color: #2563eb;
+}
+
+[data-theme="cloud"] .pipelineTag {
+  color: #64748b;
+}
+
+[data-theme="cloud"] .stageRow {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+[data-theme="cloud"] .stageRowActive {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.14);
+}
+
+[data-theme="cloud"] .stageName {
+  color: #0f172a;
+}
+
+[data-theme="cloud"] .stageStep {
+  color: #64748b;
+}
+
+[data-theme="cloud"] .stageSpec {
+  color: #475569;
+}
+
+[data-theme="cloud"] .specRow {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="cloud"] .specLabel {
+  color: #334155;
+}
+
+[data-theme="cloud"] .specPillBlue {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.25);
+}
+[data-theme="cloud"] .specPillBlue code {
+  color: #1d4ed8;
+}
+
+[data-theme="cloud"] .specPillOrange {
+  background: rgba(234, 88, 12, 0.1);
+  color: #c2410c;
+  border-color: rgba(234, 88, 12, 0.25);
+}
+
+[data-theme="cloud"] .specPillYellow {
+  background: rgba(202, 138, 4, 0.1);
+  color: #854d0e;
+  border-color: rgba(202, 138, 4, 0.25);
+}
+
+[data-theme="cloud"] .specPillCyan {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0369a1;
+  border-color: rgba(14, 165, 233, 0.25);
+}
+
+[data-theme="cloud"] .specPillGreen {
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+[data-theme="cloud"] .detailsBtn {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+[data-theme="cloud"] .detailsBtn:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* ── 04: EMBER ("Warm Intelligence") ────────────────────────── */
+[data-theme="ember"] .card {
+  background: #ffffff;
+  border-color: rgba(234, 88, 12, 0.18);
+  box-shadow: 0 1px 3px rgba(234, 88, 12, 0.06), 0 4px 16px rgba(234, 88, 12, 0.05);
+}
+
+[data-theme="ember"] .iconBadge {
+  background: rgba(234, 88, 12, 0.09);
+  border-color: rgba(234, 88, 12, 0.25);
+}
+
+[data-theme="ember"] .titleIcon {
+  color: #ea580c;
+}
+
+[data-theme="ember"] .title {
+  color: #1c0a00;
+}
+
+[data-theme="ember"] .titleSub {
+  color: #78350f;
+}
+
+[data-theme="ember"] .statusOk {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.28);
+}
+
+[data-theme="ember"] .pipelineVisual {
+  background: #fff5ec;
+  border-color: rgba(234, 88, 12, 0.18);
+}
+
+[data-theme="ember"] .pipelineHeader {
+  color: #9a3412;
+}
+
+[data-theme="ember"] .pipelineTitle {
+  color: #1c0a00;
+}
+
+[data-theme="ember"] .pipelineIcon {
+  color: #ea580c;
+}
+
+[data-theme="ember"] .pipelineTag {
+  color: #9a3412;
+}
+
+[data-theme="ember"] .stageRow {
+  background: #ffffff;
+  border-color: rgba(234, 88, 12, 0.14);
+}
+
+[data-theme="ember"] .stageRowActive {
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.4);
+  box-shadow: 0 0 14px rgba(234, 88, 12, 0.2);
+}
+
+[data-theme="ember"] .stageName {
+  color: #1c0a00;
+}
+
+[data-theme="ember"] .stageStep {
+  color: #9a3412;
+}
+
+[data-theme="ember"] .stageSpec {
+  color: #78350f;
+}
+
+[data-theme="ember"] .specRow {
+  background: #fff5ec;
+  border-color: rgba(234, 88, 12, 0.14);
+}
+
+[data-theme="ember"] .specLabel {
+  color: #431407;
+}
+
+[data-theme="ember"] .specPillBlue {
+  background: rgba(234, 88, 12, 0.1);
+  color: #c2410c;
+  border-color: rgba(234, 88, 12, 0.25);
+}
+[data-theme="ember"] .specPillBlue code {
+  color: #c2410c;
+}
+
+[data-theme="ember"] .specPillOrange {
+  background: rgba(234, 88, 12, 0.12);
+  color: #c2410c;
+  border-color: rgba(234, 88, 12, 0.3);
+}
+
+[data-theme="ember"] .specPillYellow {
+  background: rgba(217, 119, 6, 0.12);
+  color: #92400e;
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+[data-theme="ember"] .specPillCyan {
+  background: rgba(234, 88, 12, 0.1);
+  color: #ea580c;
+  border-color: rgba(234, 88, 12, 0.25);
+}
+
+[data-theme="ember"] .specPillGreen {
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+[data-theme="ember"] .detailsBtn {
+  background: #fff5ec;
+  color: #1c0a00;
+  border-color: #fed7aa;
+}
+[data-theme="ember"] .detailsBtn:hover {
+  background: #fff7ed;
+  border-color: #ea580c;
+  color: #c2410c;
+}
+
+/* ── 05: PIXELCRAFT ("Block by Block") ──────────────────────── */
+[data-theme="pixelcraft"] .card {
+  border-radius: 0;
+  border: 2px solid #3e6b3e;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+[data-theme="pixelcraft"] .pipelineVisual,
+[data-theme="pixelcraft"] .stageRow,
+[data-theme="pixelcraft"] .specRow,
+[data-theme="pixelcraft"] .detailsBtn {
+  border-radius: 0;
+  border: 1px solid #3e6b3e;
+}
+
+[data-theme="pixelcraft"] .iconBadge {
+  border-radius: 0;
+  border: 1px solid #3e6b3e;
+}
+
+[data-theme="pixelcraft"] .statusPill {
+  border-radius: 0;
+  border: 1px solid #3e6b3e;
+}
+
+/* ── 06: IMPERIUM ("Dark Golden Royal Edition") ─────────────── */
+[data-theme="imperium"] .card {
+  background: #080808 !important;
+  border: 1px solid rgba(168, 132, 42, 0.28) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.95), 0 0 1px rgba(201, 162, 39, 0.15) !important;
+  border-radius: 12px;
+}
+
+[data-theme="imperium"] .card:hover {
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.98), 0 0 16px rgba(201, 162, 39, 0.15) !important;
+}
+
+[data-theme="imperium"] .cardGlow {
+  display: none !important;
+}
+
+[data-theme="imperium"] .iconBadge {
+  background: rgba(201, 162, 39, 0.12);
+  border-color: rgba(201, 162, 39, 0.35);
+  color: #d4af37;
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  color: #fff4c7;
+}
+
+[data-theme="imperium"] .subtitle {
+  color: #c9b98a;
+}
+
+[data-theme="imperium"] .statusPill {
+  background: #040404 !important;
+  border-color: rgba(201, 162, 39, 0.35) !important;
+  color: #d4af37;
+}
+
+[data-theme="imperium"] .detailsBtn {
+  background: #0c0c0c !important;
+  border-color: rgba(168, 132, 42, 0.35);
+  color: #e5c766;
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .detailsBtn:hover {
+  background: rgba(201, 162, 39, 0.15) !important;
+  border-color: #d4af37;
+  color: #fff4c7;
+}
+
+[data-theme="imperium"] .specPillBlue,
+[data-theme="imperium"] .specPillOrange,
+[data-theme="imperium"] .specPillYellow,
+[data-theme="imperium"] .specPillCyan,
+[data-theme="imperium"] .specPillGreen {
+  background: #040404 !important;
+  border: 1px solid rgba(168, 132, 42, 0.25) !important;
+  color: #f5e7b2 !important;
+}
+
+[data-theme="imperium"] .specPillBlue code {
+  color: #e5c766 !important;
+}
+
+[data-theme="imperium"] .specIconOrange,
+[data-theme="imperium"] .specPillCyan svg,
+[data-theme="imperium"] .specPillGreen svg {
+  color: #d4af37 !important;
+}
+
+[data-theme="imperium"] .pipelineTitle,
+[data-theme="imperium"] .pipelineTag {
+  color: #a8842a !important;
+}
+
+[data-theme="imperium"] .stageRow {
+  background: #040404 !important;
+  border-color: rgba(168, 132, 42, 0.2) !important;
+}
+
+[data-theme="imperium"] .stageRowActive {
+  background: rgba(201, 162, 39, 0.12) !important;
+  border-color: #d4af37 !important;
+}
+
+[data-theme="imperium"] .stageName {
+  color: #f5e7b2 !important;
+}
+
+[data-theme="imperium"] .stageMeta {
+  color: #8f805f !important;
+}
+
+[data-theme="imperium"] .stageActivePill {
+  background: #d4af37 !important;
+  color: #0b0906 !important;
+  font-weight: 700 !important;
+}
+
+/* ── 02: VOID Monochromatic High-Contrast ───────────────────── */
+[data-theme="void"] .card {
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.95);
+}
+
+[data-theme="void"] .card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="void"] .cardGlow {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+}
+
+[data-theme="void"] .iconBadge {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+[data-theme="void"] .title {
+  color: #ffffff;
+}
+
+[data-theme="void"] .subtitle {
+  color: #888888;
+}
+
+[data-theme="void"] .statusPill {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+[data-theme="void"] .statusDot {
+  background: #ffffff;
+  box-shadow: 0 0 6px #ffffff;
+}
+
+[data-theme="void"] .detailsBtn {
+  background: #141414;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+[data-theme="void"] .detailsBtn:hover {
+  background: #222222;
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+[data-theme="void"] .specPillBlue,
+[data-theme="void"] .specPillOrange,
+[data-theme="void"] .specPillYellow,
+[data-theme="void"] .specPillCyan,
+[data-theme="void"] .specPillGreen {
+  background: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .specPillBlue code {
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .specIconOrange,
+[data-theme="void"] .specPillCyan svg,
+[data-theme="void"] .specPillGreen svg {
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .pipelineTitle,
+[data-theme="void"] .pipelineTag {
+  color: #888888 !important;
+}
+
+[data-theme="void"] .stageRow {
+  background: #0d0d0d !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="void"] .stageRowActive {
+  background: #181818 !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme="void"] .stageName {
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .stageMeta {
+  color: #888888 !important;
+}
+
+[data-theme="void"] .stageActivePill {
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}

@@ -1,0 +1,141 @@
+.stackStage {
+  background: var(--t-card-bg, rgba(15, 23, 42, 0.7));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.stageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 0.65rem;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.stackIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.stackTitle {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--t-text-1, #f8fafc);
+}
+
+.stackHint {
+  font-size: 0.72rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+}
+
+/* ── 3D Document Stack Deck ────────────────────────────────── */
+.stackDeck {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  position: relative;
+}
+
+.stackSheet {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.stackSheet:hover, .sheetHovered {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.sheetTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheetNameWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.sheetIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.sheetName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sheetStatusBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+}
+
+.sheetSnippet {
+  font-size: 0.78rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.6));
+  line-height: 1.5;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sheetMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+  font-family: var(--t-font-mono, monospace);
+}
+
+.metaDivider {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.openPill {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #38bdf8;
+  font-weight: 600;
+}

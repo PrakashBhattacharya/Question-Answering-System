@@ -1,0 +1,1081 @@
+/* ================================================================
+   TECH BOOK — Multi-Theme Adaptive 3D Architecture Codex
+   (Natural, clean physical shadows without outer glowing halos)
+   Supports: Original, Void, Cloud, Ember, Pixelcraft, Imperium
+   ================================================================ */
+
+/* ── Default Tokens (Original / Signature Cyberpunk Indigo) ── */
+:root {
+  --book-cover-bg: linear-gradient(145deg, #0d1017 0%, #06080d 50%, #0b0e16 100%);
+  --book-cover-border: rgba(255, 255, 255, 0.16);
+  --book-cover-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.75), 0 12px 24px -6px rgba(0, 0, 0, 0.5);
+  --book-spine-bg: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0.15) 45%, rgba(0,0,0,0.95) 50%, rgba(255,255,255,0.15) 55%, rgba(0,0,0,0.7) 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #6366f1 0%, #4338ca 85%, #312e81 100%);
+  --book-page-bg-left: linear-gradient(135deg, #161a29 0%, #0d101a 100%);
+  --book-page-bg-right: linear-gradient(225deg, #161a29 0%, #0d101a 100%);
+  --book-leaf-front: linear-gradient(225deg, #1b2033 0%, #0e121e 100%);
+  --book-leaf-back: linear-gradient(135deg, #1b2033 0%, #0e121e 100%);
+  --book-page-border: rgba(255, 255, 255, 0.1);
+  --book-crease-shadow: rgba(0, 0, 0, 0.65);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.02) 1px, rgba(0,0,0,0.4) 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, rgba(0,0,0,0.4) 0px, rgba(255,255,255,0.02) 1px, rgba(255,255,255,0.08) 2px);
+  --book-text-title: #ffffff;
+  --book-text-body: #e2e8f0;
+  --book-text-muted: #94a3b8;
+  --book-text-folio: #818cf8;
+  --book-code-bg: rgba(0, 0, 0, 0.55);
+  --book-code-text: #38bdf8;
+  --book-code-border: rgba(255, 255, 255, 0.12);
+  --book-spec-bg: rgba(255, 255, 255, 0.05);
+  --book-spec-border: rgba(255, 255, 255, 0.1);
+  --book-quote-border: #6366f1;
+  --book-quote-text: #cbd5e1;
+  --book-tab-bg: #111422;
+  --book-tab-border: rgba(255, 255, 255, 0.14);
+  --book-tab-text: #94a3b8;
+  --book-tab-active-bg: #252b4a;
+  --book-tab-active-border: #6366f1;
+  --book-controls-bg: rgba(13, 16, 26, 0.85);
+  --book-controls-border: rgba(255, 255, 255, 0.12);
+  --book-controls-text: #ffffff;
+  --book-dogear-color: #6366f1;
+}
+
+/* ── 01: ORIGINAL (Signature Cyberpunk Indigo) ── */
+[data-theme="original"],
+[data-book-theme="original"] {
+  --book-cover-bg: linear-gradient(145deg, #0d1017 0%, #06080d 50%, #0b0e16 100%);
+  --book-cover-border: rgba(99, 102, 241, 0.35);
+  --book-cover-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 12px 24px -6px rgba(0, 0, 0, 0.55);
+  --book-spine-bg: linear-gradient(90deg, #05070c 0%, #312e81 45%, #020305 50%, #312e81 55%, #05070c 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #6366f1 0%, #4338ca 85%, #312e81 100%);
+  --book-page-bg-left: linear-gradient(135deg, #131728 0%, #0a0d16 100%);
+  --book-page-bg-right: linear-gradient(225deg, #131728 0%, #0a0d16 100%);
+  --book-leaf-front: linear-gradient(225deg, #191e33 0%, #0d111d 100%);
+  --book-leaf-back: linear-gradient(135deg, #191e33 0%, #0d111d 100%);
+  --book-page-border: rgba(99, 102, 241, 0.2);
+  --book-crease-shadow: rgba(0, 0, 0, 0.7);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, rgba(99,102,241,0.12) 0px, rgba(255,255,255,0.02) 1px, rgba(0,0,0,0.45) 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, rgba(0,0,0,0.45) 0px, rgba(255,255,255,0.02) 1px, rgba(99,102,241,0.12) 2px);
+  --book-text-title: #ffffff;
+  --book-text-body: #e2e8f0;
+  --book-text-muted: #94a3b8;
+  --book-text-folio: #818cf8;
+  --book-code-bg: rgba(5, 7, 14, 0.7);
+  --book-code-text: #38bdf8;
+  --book-code-border: rgba(99, 102, 241, 0.25);
+  --book-spec-bg: rgba(99, 102, 241, 0.06);
+  --book-spec-border: rgba(99, 102, 241, 0.16);
+  --book-quote-border: #6366f1;
+  --book-quote-text: #cbd5e1;
+  --book-tab-bg: #0e1220;
+  --book-tab-border: rgba(99, 102, 241, 0.25);
+  --book-tab-text: #94a3b8;
+  --book-tab-active-bg: #6366f1;
+  --book-tab-active-border: #818cf8;
+  --book-controls-bg: rgba(13, 16, 26, 0.85);
+  --book-controls-border: rgba(99, 102, 241, 0.25);
+  --book-controls-text: #ffffff;
+  --book-dogear-color: #6366f1;
+}
+
+/* ── 02: VOID (Pitch Black / Stealth Monochrome) ── */
+[data-theme="void"],
+[data-book-theme="void"] {
+  --book-cover-bg: linear-gradient(145deg, #080808 0%, #000000 50%, #050505 100%);
+  --book-cover-border: #262626;
+  --book-cover-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95), 0 15px 30px -5px rgba(0, 0, 0, 0.85);
+  --book-spine-bg: linear-gradient(90deg, #000000 0%, #262626 45%, #000000 50%, #262626 55%, #000000 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #ffffff 0%, #a3a3a3 80%, #525252 100%);
+  --book-page-bg-left: linear-gradient(135deg, #0d0d0d 0%, #040404 100%);
+  --book-page-bg-right: linear-gradient(225deg, #0d0d0d 0%, #040404 100%);
+  --book-leaf-front: linear-gradient(225deg, #121212 0%, #070707 100%);
+  --book-leaf-back: linear-gradient(135deg, #121212 0%, #070707 100%);
+  --book-page-border: rgba(255, 255, 255, 0.08);
+  --book-crease-shadow: rgba(0, 0, 0, 0.88);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.01) 1px, rgba(0,0,0,0.65) 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, rgba(0,0,0,0.65) 0px, rgba(255,255,255,0.01) 1px, rgba(255,255,255,0.06) 2px);
+  --book-text-title: #ffffff;
+  --book-text-body: #d4d4d4;
+  --book-text-muted: #888888;
+  --book-text-folio: #ffffff;
+  --book-code-bg: #000000;
+  --book-code-text: #f5f5f5;
+  --book-code-border: #333333;
+  --book-spec-bg: rgba(255, 255, 255, 0.035);
+  --book-spec-border: rgba(255, 255, 255, 0.08);
+  --book-quote-border: #ffffff;
+  --book-quote-text: #a3a3a3;
+  --book-tab-bg: #090909;
+  --book-tab-border: #262626;
+  --book-tab-text: #737373;
+  --book-tab-active-bg: #262626;
+  --book-tab-active-border: #ffffff;
+  --book-controls-bg: #080808;
+  --book-controls-border: #262626;
+  --book-controls-text: #ffffff;
+  --book-dogear-color: #ffffff;
+}
+
+/* ── 03: CLOUD (Pristine White Porcelain / Royal Sapphire Ribbon) ── */
+[data-theme="cloud"],
+[data-book-theme="cloud"] {
+  --book-cover-bg: linear-gradient(145deg, #e4eaf2 0%, #d5dde8 50%, #edf2f7 100%);
+  --book-cover-border: rgba(148, 163, 184, 0.55);
+  --book-cover-shadow: 0 25px 50px -15px rgba(30, 41, 59, 0.2), 0 10px 20px -5px rgba(30, 41, 59, 0.1);
+  --book-spine-bg: linear-gradient(90deg, rgba(148,163,184,0.7) 0%, #ffffff 45%, rgba(100,116,139,0.9) 50%, #ffffff 55%, rgba(148,163,184,0.7) 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #2563eb 0%, #1d4ed8 85%, #1e40af 100%);
+  --book-page-bg-left: linear-gradient(135deg, #ffffff 0%, #f6f9fc 100%);
+  --book-page-bg-right: linear-gradient(225deg, #ffffff 0%, #f6f9fc 100%);
+  --book-leaf-front: linear-gradient(225deg, #ffffff 0%, #eef3f8 100%);
+  --book-leaf-back: linear-gradient(135deg, #ffffff 0%, #eef3f8 100%);
+  --book-page-border: rgba(203, 213, 225, 0.9);
+  --book-crease-shadow: rgba(100, 116, 139, 0.22);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, #cbd5e1 0px, #ffffff 1px, #e2e8f0 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, #e2e8f0 0px, #ffffff 1px, #cbd5e1 2px);
+  --book-text-title: #0f172a;
+  --book-text-body: #334155;
+  --book-text-muted: #64748b;
+  --book-text-folio: #2563eb;
+  --book-code-bg: #f1f5f9;
+  --book-code-text: #1e40af;
+  --book-code-border: #cbd5e1;
+  --book-spec-bg: #f8fafc;
+  --book-spec-border: #e2e8f0;
+  --book-quote-border: #2563eb;
+  --book-quote-text: #475569;
+  --book-tab-bg: #f1f5f9;
+  --book-tab-border: #cbd5e1;
+  --book-tab-text: #64748b;
+  --book-tab-active-bg: #2563eb;
+  --book-tab-active-border: #1d4ed8;
+  --book-controls-bg: #ffffff;
+  --book-controls-border: #cbd5e1;
+  --book-controls-text: #0f172a;
+  --book-dogear-color: #2563eb;
+}
+
+/* ── 04: EMBER (Warm Antique Tuscan Leather & Cream Vellum) ── */
+[data-theme="ember"],
+[data-book-theme="ember"] {
+  --book-cover-bg: linear-gradient(145deg, #2b170e 0%, #170b05 50%, #24130b 100%);
+  --book-cover-border: rgba(234, 88, 12, 0.4);
+  --book-cover-shadow: 0 30px 60px -15px rgba(42, 22, 14, 0.65), 0 12px 24px -5px rgba(0, 0, 0, 0.5);
+  --book-spine-bg: linear-gradient(90deg, #150904 0%, #9a3412 45%, #0c0402 50%, #9a3412 55%, #150904 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #ea580c 0%, #c2410c 85%, #9a3412 100%);
+  --book-page-bg-left: linear-gradient(135deg, #fdfbf7 0%, #f6eee2 100%);
+  --book-page-bg-right: linear-gradient(225deg, #fdfbf7 0%, #f6eee2 100%);
+  --book-leaf-front: linear-gradient(225deg, #fffcf8 0%, #ebe0d0 100%);
+  --book-leaf-back: linear-gradient(135deg, #fffcf8 0%, #ebe0d0 100%);
+  --book-page-border: rgba(217, 119, 6, 0.3);
+  --book-crease-shadow: rgba(124, 45, 18, 0.28);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, #d7c4b0 0px, #fdfbf7 1px, #cbb59f 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, #cbb59f 0px, #fdfbf7 1px, #d7c4b0 2px);
+  --book-text-title: #2a170d;
+  --book-text-body: #482e1e;
+  --book-text-muted: #8a5e42;
+  --book-text-folio: #ea580c;
+  --book-code-bg: #23140b;
+  --book-code-text: #fbbf24;
+  --book-code-border: rgba(234, 88, 12, 0.35);
+  --book-spec-bg: #f5ede2;
+  --book-spec-border: rgba(217, 119, 6, 0.25);
+  --book-quote-border: #ea580c;
+  --book-quote-text: #6c4328;
+  --book-tab-bg: #28160d;
+  --book-tab-border: rgba(234, 88, 12, 0.35);
+  --book-tab-text: #d7c4b0;
+  --book-tab-active-bg: #ea580c;
+  --book-tab-active-border: #f97316;
+  --book-controls-bg: rgba(255, 252, 247, 0.95);
+  --book-controls-border: rgba(217, 119, 6, 0.3);
+  --book-controls-text: #2a170d;
+  --book-dogear-color: #ea580c;
+}
+
+/* ── 05: PIXELCRAFT (Tactical Dark Moss Obsidian & Phosphor Emerald) ── */
+[data-theme="pixelcraft"],
+[data-book-theme="pixelcraft"] {
+  --book-cover-bg: linear-gradient(145deg, #0e1e13 0%, #061109 50%, #0c1a11 100%);
+  --book-cover-border: rgba(34, 197, 94, 0.4);
+  --book-cover-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85), 0 12px 24px -6px rgba(0, 0, 0, 0.6);
+  --book-spine-bg: linear-gradient(90deg, #050b07 0%, #15803d 45%, #020603 50%, #15803d 55%, #050b07 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #22c55e 0%, #16a34a 85%, #15803d 100%);
+  --book-page-bg-left: linear-gradient(135deg, #102417 0%, #08160d 100%);
+  --book-page-bg-right: linear-gradient(225deg, #102417 0%, #08160d 100%);
+  --book-leaf-front: linear-gradient(225deg, #15301e 0%, #0b1c10 100%);
+  --book-leaf-back: linear-gradient(135deg, #15301e 0%, #0b1c10 100%);
+  --book-page-border: rgba(34, 197, 94, 0.25);
+  --book-crease-shadow: rgba(0, 0, 0, 0.78);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, rgba(34,197,94,0.12) 0px, rgba(34,197,94,0.02) 1px, rgba(0,0,0,0.5) 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, rgba(0,0,0,0.5) 0px, rgba(34,197,94,0.02) 1px, rgba(34,197,94,0.12) 2px);
+  --book-text-title: #f0fdf4;
+  --book-text-body: #bbf7d0;
+  --book-text-muted: #86efac;
+  --book-text-folio: #4ade80;
+  --book-code-bg: #061009;
+  --book-code-text: #a3e635;
+  --book-code-border: rgba(34, 197, 94, 0.35);
+  --book-spec-bg: rgba(34, 197, 94, 0.09);
+  --book-spec-border: rgba(34, 197, 94, 0.22);
+  --book-quote-border: #22c55e;
+  --book-quote-text: #86efac;
+  --book-tab-bg: #0b1c11;
+  --book-tab-border: rgba(34, 197, 94, 0.3);
+  --book-tab-text: #86efac;
+  --book-tab-active-bg: #16a34a;
+  --book-tab-active-border: #22c55e;
+  --book-controls-bg: rgba(14, 30, 20, 0.9);
+  --book-controls-border: rgba(34, 197, 94, 0.3);
+  --book-controls-text: #f0fdf4;
+  --book-dogear-color: #22c55e;
+}
+
+/* ── 06: IMPERIUM (Royal Velvet Obsidian & 24K Gilded Gold Leaf) ── */
+[data-theme="imperium"],
+[data-book-theme="imperium"] {
+  --book-cover-bg: linear-gradient(145deg, #130f08 0%, #060503 50%, #100c06 100%);
+  --book-cover-border: rgba(212, 175, 55, 0.5);
+  --book-cover-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.95), 0 12px 24px -6px rgba(0, 0, 0, 0.7);
+  --book-spine-bg: linear-gradient(90deg, #080603 0%, #d4af37 45%, #020201 50%, #d4af37 55%, #080603 100%);
+  --book-ribbon-bg: linear-gradient(180deg, #ffd700 0%, #d4af37 60%, #996515 100%);
+  --book-page-bg-left: linear-gradient(135deg, #18130a 0%, #0c0a06 100%);
+  --book-page-bg-right: linear-gradient(225deg, #18130a 0%, #0c0a06 100%);
+  --book-leaf-front: linear-gradient(225deg, #221b0e 0%, #100c07 100%);
+  --book-leaf-back: linear-gradient(135deg, #221b0e 0%, #100c07 100%);
+  --book-page-border: rgba(212, 175, 55, 0.3);
+  --book-crease-shadow: rgba(0, 0, 0, 0.88);
+  --book-edge-stack-left: repeating-linear-gradient(90deg, #d4af37 0px, #ffd700 1px, #785a1a 2px);
+  --book-edge-stack-right: repeating-linear-gradient(90deg, #785a1a 0px, #ffd700 1px, #d4af37 2px);
+  --book-text-title: #fffbeb;
+  --book-text-body: #fef3c7;
+  --book-text-muted: #e4cf92;
+  --book-text-folio: #f59e0b;
+  --book-code-bg: #080603;
+  --book-code-text: #fde047;
+  --book-code-border: rgba(212, 175, 55, 0.4);
+  --book-spec-bg: rgba(212, 175, 55, 0.09);
+  --book-spec-border: rgba(212, 175, 55, 0.28);
+  --book-quote-border: #ffd700;
+  --book-quote-text: #fef3c7;
+  --book-tab-bg: #151007;
+  --book-tab-border: rgba(212, 175, 55, 0.38);
+  --book-tab-text: #e4cf92;
+  --book-tab-active-bg: #d4af37;
+  --book-tab-active-border: #ffd700;
+  --book-controls-bg: rgba(16, 12, 6, 0.9);
+  --book-controls-border: rgba(212, 175, 55, 0.35);
+  --book-controls-text: #fffbeb;
+  --book-dogear-color: #ffd700;
+}
+
+/* ── Structural Layout & 3D Stage ── */
+.bookSectionContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  perspective: 2200px;
+  -webkit-perspective: 2200px;
+  transition: all 0.4s ease;
+}
+
+/* ── Top Book Controls Bar ── */
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 0.8rem 1.4rem;
+  background: var(--book-controls-bg);
+  border: 1px solid var(--book-controls-border);
+  border-radius: 9999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  color: var(--book-controls-text);
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.controlsLeft, .controlsRight {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.controlsCenter {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.folioBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--book-controls-text);
+  background: rgba(125, 125, 125, 0.1);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid var(--book-controls-border);
+}
+
+.spreadIndicator {
+  color: var(--book-text-folio);
+  font-weight: 700;
+}
+
+.ctrlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(125, 125, 125, 0.1);
+  border: 1px solid var(--book-controls-border);
+  color: var(--book-controls-text);
+  padding: 0.45rem 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.ctrlBtn:hover:not(:disabled) {
+  background: rgba(125, 125, 125, 0.2);
+  border-color: var(--book-dogear-color);
+  transform: translateY(-1px);
+}
+
+.ctrlBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.ctrlBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ctrlBtnActive {
+  background: var(--book-dogear-color) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ctrlBtnActive svg {
+  color: currentColor;
+  stroke: currentColor;
+}
+
+[data-theme="void"] .ctrlBtnActive,
+[data-book-theme="void"] .ctrlBtnActive {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+[data-theme="imperium"] .ctrlBtnActive,
+[data-book-theme="imperium"] .ctrlBtnActive {
+  background: #d4af37 !important;
+  color: #0b0906 !important;
+}
+
+/* Dot indicators */
+.dotsWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(125, 125, 125, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+}
+
+.dotActive {
+  width: 24px;
+  border-radius: 5px;
+  background: var(--book-dogear-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ── 3D BOOK CASING & STRUCTURE ── */
+.bookStage {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  perspective: 2400px;
+  -webkit-perspective: 2400px;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+/* Book Cover Base: Hardcover (Pure physical shadow, zero outer glowing halo) */
+.bookHardcover {
+  position: relative;
+  width: 100%;
+  display: flex;
+  background: var(--book-cover-bg);
+  border: 1px solid var(--book-cover-border);
+  border-radius: 22px;
+  padding: 16px 20px;
+  box-shadow: var(--book-cover-shadow);
+  transform-style: preserve-3d;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Stacked page edges on left & right giving book depth */
+.stackLeft, .stackRight {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  width: 14px;
+  pointer-events: none;
+  z-index: 2;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.stackLeft {
+  left: 6px;
+  background: var(--book-edge-stack-left);
+  border-left: 1px solid var(--book-cover-border);
+  border-radius: 4px 0 0 4px;
+}
+
+.stackRight {
+  right: 6px;
+  background: var(--book-edge-stack-right);
+  border-right: 1px solid var(--book-cover-border);
+  border-radius: 0 4px 4px 0;
+}
+
+/* ── Central Book Spine ── */
+.spineCenter {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 50%;
+  width: 16px;
+  transform: translateX(-50%);
+  z-index: 25;
+  pointer-events: none;
+  background: var(--book-spine-bg);
+  box-shadow: 
+    -4px 0 10px rgba(0, 0, 0, 0.6),
+    4px 0 10px rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  transition: background 0.4s ease;
+}
+
+/* Silk bookmark ribbon hanging down from spine */
+.ribbon {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 20px;
+  height: 125px;
+  transform: translateX(-50%);
+  background: var(--book-ribbon-bg);
+  z-index: 30;
+  pointer-events: none;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+  animation: ribbonSway 4s ease-in-out infinite alternate;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+@keyframes ribbonSway {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(1.2deg); }
+}
+
+/* ── Main Pages Spread Container ── */
+.spreadPages {
+  position: relative;
+  width: 100%;
+  min-height: 570px;
+  display: flex;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  background: transparent;
+  border-radius: 14px;
+  overflow: visible;
+}
+
+/* Static Left Page */
+.pageStaticLeft {
+  position: relative;
+  width: 50%;
+  min-height: 570px;
+  border-radius: 12px 0 0 12px;
+  background: var(--book-page-bg-left);
+  border: 1px solid var(--book-page-border);
+  border-right: none;
+  box-shadow: inset -18px 0 30px -10px var(--book-crease-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Static Right Page */
+.pageStaticRight {
+  position: relative;
+  width: 50%;
+  min-height: 570px;
+  border-radius: 0 12px 12px 0;
+  background: var(--book-page-bg-right);
+  border: 1px solid var(--book-page-border);
+  border-left: none;
+  box-shadow: inset 18px 0 30px -10px var(--book-crease-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Spine Crease Shadows on Static Pages */
+.creaseLeft {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 44px;
+  background: linear-gradient(90deg, transparent 0%, var(--book-crease-shadow) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.creaseRight {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 44px;
+  background: linear-gradient(90deg, var(--book-crease-shadow) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── 3D FLIPPING LEAF (The Turning Page) ── */
+.flippingLeaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  z-index: 20;
+  will-change: transform;
+}
+
+/* Next direction: Leaf sits on right, turns left around its left spine edge */
+.leafNext {
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+}
+
+.leafNextTurning {
+  transform: rotateY(-180deg);
+  transition: transform 0.78s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Prev direction: Leaf sits on left, turns right around its right spine edge */
+.leafPrev {
+  left: 0;
+  transform-origin: right center;
+  transform: rotateY(0deg);
+}
+
+.leafPrevTurning {
+  transform: rotateY(180deg);
+  transition: transform 0.78s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Faces of the Turning Leaf */
+.leafFront, .leafBack {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55);
+}
+
+/* Front Face */
+.leafFront {
+  border-radius: 0 12px 12px 0;
+  background: var(--book-leaf-front);
+  border: 1px solid var(--book-page-border);
+  transform: rotateY(0deg);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Back Face */
+.leafBack {
+  border-radius: 12px 0 0 12px;
+  background: var(--book-leaf-back);
+  border: 1px solid var(--book-page-border);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.leafNext .leafBack {
+  transform: rotateY(180deg);
+}
+
+.leafPrev .leafBack {
+  transform: rotateY(-180deg);
+}
+
+/* Dynamic Shadow Overlay on Leaf during flip */
+.leafShadowOverlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.12) 40%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+}
+
+/* ── PAGE CONTENT INNER LAYOUT ── */
+.pageInner {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem 2.4rem;
+  z-index: 5;
+  height: 100%;
+  color: var(--book-text-body);
+  transition: color 0.35s ease;
+}
+
+/* Top Folio Header */
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--book-page-border);
+}
+
+.pageFolioText {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--book-text-folio);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pageNumeral {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--book-text-muted);
+}
+
+/* Tech Identity Header */
+.identityBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+  margin-top: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.techIconBox {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease;
+}
+
+.techIconBox:hover {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.identityText {
+  flex: 1;
+}
+
+.techName {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--book-text-title);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0;
+  transition: color 0.35s ease;
+}
+
+.techRolePill {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Description paragraph */
+.pageDesc {
+  font-size: 0.88rem;
+  color: var(--book-text-body);
+  line-height: 1.65;
+  margin-bottom: 1.15rem;
+  transition: color 0.35s ease;
+}
+
+/* Specifications Matrix */
+.specsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 1.15rem;
+}
+
+.specItem {
+  background: var(--book-spec-bg);
+  border: 1px solid var(--book-spec-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  backdrop-filter: blur(8px);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.specLabel {
+  font-size: 0.66rem;
+  font-family: var(--font-mono, monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--book-text-muted);
+}
+
+.specValue {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--book-text-title);
+}
+
+/* Mathematical / Pipeline Code Snippet */
+.codeBlock {
+  background: var(--book-code-bg);
+  border: 1px solid var(--book-code-border);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.codeLabel {
+  font-size: 0.64rem;
+  font-family: var(--font-mono, monospace);
+  color: var(--book-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.codeSnippet {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  color: var(--book-code-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.45;
+  transition: color 0.35s ease;
+}
+
+/* Architectural Guarantee / Quote */
+.quoteBox {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--book-quote-text);
+  border-left: 2px solid var(--book-quote-border);
+  padding-left: 0.75rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  transition: color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Tags Row */
+.tagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.tagPill {
+  font-size: 0.66rem;
+  font-family: var(--font-mono, monospace);
+  padding: 0.22rem 0.55rem;
+  border-radius: 4px;
+  background: var(--book-spec-bg);
+  border: 1px solid var(--book-spec-border);
+  color: var(--book-text-muted);
+}
+
+/* Page Footer & Dog-Ear Corner Curl */
+.pageFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--book-page-border);
+  font-size: 0.75rem;
+  color: var(--book-text-muted);
+}
+
+.turnPageHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  color: var(--book-text-muted);
+}
+
+.turnPageHint:hover {
+  color: var(--book-text-title);
+  transform: translateX(3px);
+}
+
+.turnBackHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  color: var(--book-text-muted);
+}
+
+.turnBackHint:hover {
+  color: var(--book-text-title);
+  transform: translateX(-3px);
+}
+
+/* Interactive Corner Curl Dog-Ear */
+.dogEarRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dogEarRight::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 36px 36px;
+  border-color: transparent transparent rgba(125, 125, 125, 0.25) transparent;
+  filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.4));
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dogEarRight:hover::before {
+  border-width: 0 0 48px 48px;
+  border-color: transparent transparent var(--book-dogear-color) transparent;
+  filter: drop-shadow(-4px -4px 6px rgba(0, 0, 0, 0.5));
+}
+
+.dogEarLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dogEarLeft::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 36px 0 0 36px;
+  border-color: transparent transparent transparent rgba(125, 125, 125, 0.25);
+  filter: drop-shadow(2px -2px 3px rgba(0, 0, 0, 0.4));
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dogEarLeft:hover::before {
+  border-width: 48px 0 0 48px;
+  border-color: transparent transparent transparent var(--book-dogear-color);
+  filter: drop-shadow(4px -4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* ── THUMB INDEX TABS (protruding along the right edge) ── */
+.thumbTabs {
+  position: absolute;
+  top: 40px;
+  right: -36px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 28;
+}
+
+.thumbTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 52px;
+  border-radius: 0 8px 8px 0;
+  background: var(--book-tab-bg);
+  border: 1px solid var(--book-tab-border);
+  border-left: none;
+  cursor: pointer;
+  color: var(--book-tab-text);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.thumbTab:hover {
+  transform: translateX(6px);
+  color: var(--book-text-title);
+  border-color: var(--book-tab-active-border);
+}
+
+.thumbTabActive {
+  transform: translateX(10px);
+  color: #ffffff !important;
+  background: var(--book-tab-active-bg) !important;
+  border-color: var(--book-tab-active-border) !important;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Tooltip on thumb tab */
+.thumbTabTooltip {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--book-controls-bg);
+  color: var(--book-controls-text);
+  border: 1px solid var(--book-controls-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  z-index: 40;
+}
+
+.thumbTab:hover .thumbTabTooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+/* ── RESPONSIVE MOBILE ADJUSTMENTS ── */
+@media (max-width: 960px) {
+  .pageInner {
+    padding: 1.6rem 1.6rem;
+  }
+  .specsGrid {
+    grid-template-columns: 1fr;
+  }
+  .thumbTabs {
+    right: -28px;
+  }
+  .thumbTab {
+    width: 30px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookHardcover {
+    padding: 12px;
+    border-radius: 16px;
+  }
+  .spreadPages {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .pageStaticLeft, .pageStaticRight {
+    width: 100%;
+    border-radius: 12px;
+    border-right: 1px solid var(--book-page-border);
+    border-left: 1px solid var(--book-page-border);
+    min-height: auto;
+    margin-bottom: 1.25rem;
+  }
+  .spineCenter, .ribbon, .thumbTabs, .stackLeft, .stackRight, .flippingLeaf {
+    display: none;
+  }
+  .pageInner {
+    padding: 1.4rem 1.25rem;
+  }
+  .controlsBar {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 16px;
+  }
+  .controlsLeft, .controlsCenter, .controlsRight {
+    justify-content: center;
+  }
+}

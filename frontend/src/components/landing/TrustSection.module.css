@@ -1,0 +1,67 @@
+/* ================================================================
+   TRUST SECTION — Theme-aware
+   ================================================================ */
+.section {
+  position:relative; padding:clamp(5rem,8vw,7rem) 0;
+  background-color: var(--t-section-bg-a);
+}
+.topLine {
+  position:absolute; top:0; left:10%; right:10%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--t-accent-border),transparent);
+}
+.header {
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center; gap:1rem; margin-bottom:3.5rem;
+}
+.header.revealed { opacity:1; transform:translateY(0); }
+
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; max-width:1080px; margin:0 auto; }
+
+.card {
+  position:relative; padding:1.85rem 1.65rem 1.6rem;
+  background: var(--t-card-bg); border:1px solid var(--t-card-border);
+  border-radius:var(--t-card-radius-override);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  box-shadow: var(--t-card-shadow);
+  display:flex; flex-direction:column; gap:1rem;
+  transition:all 0.25s var(--ease-out); overflow:hidden;
+}
+.topSpecular {
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--t-border-2) 50%,transparent);
+}
+.card.revealed { opacity:1; transform:translateY(0); }
+.card:hover {
+  background:var(--t-card-bg-alt); border-color:var(--t-card-border-hover);
+  transform:translateY(-3px); box-shadow:var(--t-card-shadow-hover);
+}
+
+.topBar { display:flex; align-items:center; justify-content:space-between; }
+.iconWrap { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; transition:transform 0.25s cubic-bezier(0.16,1,0.3,1); }
+.card:hover .iconWrap { transform:scale(1.08); }
+.badge {
+  font-size:0.62rem; font-family:var(--font-mono); font-weight:700;
+  letter-spacing:0.08em; padding:0.2rem 0.55rem;
+  border-radius:var(--t-card-radius-override); text-transform:uppercase;
+  color:var(--t-eyebrow-color); background:var(--t-eyebrow-bg);
+  border:1px solid var(--t-eyebrow-border);
+}
+.cardTitle { font-size:1.05rem; font-weight:650; color:var(--t-text-1); letter-spacing:-0.015em; margin:0; }
+.cardDesc  { font-size:0.84rem; color:var(--t-text-3); line-height:1.6; margin:0; flex:1; }
+.metricRow {
+  display:inline-flex; align-items:center; gap:0.45rem;
+  padding-top:0.85rem; border-top:1px solid var(--t-border-0);
+}
+.metricText { font-size:0.72rem; font-family:var(--font-mono); color:var(--t-text-4); letter-spacing:0.02em; }
+
+@media (max-width: 900px) { .grid { grid-template-columns:1fr; max-width:480px; } }
+
+/* ── 06: IMPERIUM ── */
+[data-theme="imperium"] .section {
+  background-color: #000000 !important;
+}
+[data-theme="imperium"] .card {
+  background: #080808 !important;
+  border-color: rgba(168, 132, 42, 0.28) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}

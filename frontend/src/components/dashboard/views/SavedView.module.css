@@ -1,0 +1,356 @@
+.container {
+  padding: 1.5rem 2.25rem 4rem;
+  max-width: 1480px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--t-accent-1, #818cf8);
+}
+
+.statusPulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--t-accent-1, #38bdf8);
+  box-shadow: 0 0 8px var(--t-accent-1, #38bdf8);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--t-text-1, #f7f8f8);
+}
+
+.gradientText {
+  background: var(--t-gradient-text, linear-gradient(135deg, #67e8f9 0%, #818cf8 50%, #c084fc 100%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subTitle {
+  font-size: 0.92rem;
+  color: var(--t-text-3, var(--text-tertiary, #94a3b8));
+  line-height: 1.5;
+  margin: 0;
+}
+
+.countBadge {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.78rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.6));
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.35rem;
+}
+
+/* ── 3D Knowledge Gem Card ─────────────────────────────────── */
+.gemCard {
+  background: var(--t-card-bg, rgba(17, 24, 39, 0.75));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.gemCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.quoteWatermark {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+  transform: rotate(12deg);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.scoreBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+.sealBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.68rem;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.sealIcon {
+  color: #38bdf8;
+}
+
+.dateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+}
+
+.qWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.qLabel {
+  font-size: 0.68rem;
+  font-family: var(--t-font-mono, monospace);
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.qText {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--t-text-1, #f8fafc);
+  line-height: 1.45;
+}
+
+.ansWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+  z-index: 2;
+}
+
+.ansLabel {
+  font-size: 0.68rem;
+  font-family: var(--t-font-mono, monospace);
+  color: #34d399;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ansBox {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid #34d399;
+  border-radius: 8px;
+  padding: 0.75rem 0.95rem;
+}
+
+.ansText {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.evidenceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  position: relative;
+  z-index: 2;
+}
+
+.evidenceLabel {
+  font-size: 0.65rem;
+  font-family: var(--t-font-mono, monospace);
+  color: var(--t-text-3, rgba(255, 255, 255, 0.4));
+  text-transform: uppercase;
+}
+
+.evidenceSnippet {
+  font-size: 0.78rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.6));
+  line-height: 1.5;
+  margin: 0;
+}
+
+.scoreTrackWrap {
+  position: relative;
+  z-index: 2;
+}
+
+.scoreTrack {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  border-radius: 2px;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.openBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--t-text-1, #f8fafc);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.openBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.copyBtn, .deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.emptyWrap {
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.06));
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.emptyIcon {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--t-text-1, #f8fafc);
+}
+
+.emptyDesc {
+  font-size: 0.85rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.5));
+  max-width: 420px;
+}

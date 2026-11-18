@@ -1,0 +1,310 @@
+/* ================================================================
+   PRODUCT PREVIEW — Theme-aware
+   ================================================================ */
+.section { position:relative; padding:clamp(5.5rem,9vw,8rem) 0; overflow:hidden; }
+.topLine {
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--t-border-1) 50%,transparent);
+}
+.header { max-width:980px; margin-bottom:3.5rem; }
+.headline { font-size:clamp(1.8rem,3.2vw,2.7rem); font-weight:500; line-height:1.25; letter-spacing:-0.03em; margin-top:0.75rem; }
+.headlineWhite { color:var(--t-text-1); font-weight:600; }
+.headlineGray  { color:var(--t-text-3); font-weight:400; }
+
+/* ── Board Canvas ─────────────────────────────────────────────── */
+.boardCanvas {
+  position:relative; z-index:2; width:100%;
+  background: var(--t-card-bg); border:1px solid var(--t-card-border);
+  border-radius:var(--t-card-radius-override); overflow:hidden;
+  box-shadow: var(--t-card-shadow);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  padding:1.75rem;
+  display:grid; grid-template-columns:minmax(0,1.28fr) minmax(0,1fr);
+  gap:1.75rem; align-items:start;
+}
+.canvasAtmosphere {
+  position:absolute; top:0; right:0; width:600px; height:400px;
+  background:radial-gradient(circle at 80% 20%, var(--t-accent-subtle) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* Board grid (background columns) */
+.boardGrid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:1.15rem; opacity:0.9; order:2; transition:opacity 0.3s ease;
+}
+.boardCanvas:hover .boardGrid { opacity:1; }
+.boardCol { display:flex; flex-direction:column; gap:0.85rem; }
+.colTitleRow { display:flex; align-items:center; gap:0.55rem; font-size:0.75rem; font-weight:500; color:var(--t-text-4); padding:0 0.25rem; }
+.colStatusDot { width:6px; height:6px; border-radius:50%; }
+.colTitle { font-weight:600; color:var(--t-text-2); }
+.colCount { font-size:0.7rem; font-family:var(--font-mono); color:var(--t-text-4); }
+.colMore  { margin-left:auto; color:var(--t-text-4); }
+
+.cardList { display:flex; flex-direction:column; gap:1.1rem; }
+.issueCard {
+  background:var(--t-card-bg); border:1px solid var(--t-card-border);
+  border-radius:var(--radius-lg, 14px); padding:1.15rem 1.25rem;
+  display:flex; flex-direction:column; gap:0.65rem;
+  box-shadow:var(--t-card-shadow);
+}
+.issueCardActive { border-color:var(--t-accent-border); background:var(--t-card-bg-alt); }
+.miniMotionContainer { margin-top:0.65rem; border-radius:var(--t-card-radius-override); overflow:hidden; border:1px solid var(--t-card-border); }
+.cardTop { display:flex; align-items:center; justify-content:space-between; }
+.issueId { font-size:0.72rem; font-family:var(--font-mono); color:var(--t-text-4); font-weight:600; }
+.avatarMini { width:20px; height:20px; border-radius:50%; color:white; font-size:0.62rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.issueTitle  { font-size:0.88rem; font-weight:500; color:var(--t-text-1); line-height:1.5; }
+.issueTags   { display:flex; align-items:center; gap:0.45rem; margin-top:0.25rem; }
+.tag         { font-size:0.68rem; font-weight:500; padding:0.18rem 0.5rem; border-radius:4px; }
+
+/* Tag colors — semantic, not theme-specific */
+.tagRed    { background:rgba(239,68,68,0.1);  color:#f87171; border:1px solid rgba(239,68,68,0.2); }
+.tagBlue   { background:rgba(59,130,246,0.1); color:#60a5fa; border:1px solid rgba(59,130,246,0.2); }
+.tagPurple { background:rgba(168,85,247,0.1); color:#c084fc; border:1px solid rgba(168,85,247,0.2); }
+.tagGreen  { background:rgba(74,222,128,0.1); color:#4ade80; border:1px solid rgba(74,222,128,0.2); }
+.tagCyan   { background:rgba(34,211,238,0.1); color:#22d3ee; border:1px solid rgba(34,211,238,0.2); }
+.tagIndigo { background:var(--t-accent-subtle); color:var(--t-accent-light); border:1px solid var(--t-accent-border); }
+.tagGray   { background:var(--t-surface-hover); color:var(--t-text-3); }
+
+/* ── Floating Thread ─────────────────────────────────────────── */
+.floatingThread {
+  position:relative; top:auto; left:auto; width:100%; max-width:100%; order:1;
+  background: var(--t-card-bg);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--t-card-border); border-radius:var(--t-card-radius-override);
+  box-shadow: var(--t-card-shadow);
+  display:flex; flex-direction:column; overflow:hidden; z-index:2;
+}
+
+.threadHeader {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.85rem 1.1rem; border-bottom:1px solid var(--t-border-1);
+  background:var(--t-surface-hover);
+}
+.threadTitleBox { display:flex; align-items:center; gap:0.5rem; }
+.threadIcon     { color:var(--t-eyebrow-color); }
+.threadTitle    { font-size:0.8rem; font-weight:600; color:var(--t-text-1); }
+.threadChannel  { font-size:0.75rem; color:var(--t-text-4); font-family:var(--font-mono); }
+.threadMore     { color:var(--t-text-4); cursor:pointer; transition:color 0.15s ease; }
+.threadMore:hover { color:var(--t-text-1); }
+
+.threadBody {
+  padding:1.1rem 1.25rem; display:flex; flex-direction:column;
+  gap:1.1rem; max-height:460px; overflow-y:auto; overflow-x:hidden;
+  width:100%; box-sizing:border-box;
+  scrollbar-width:thin; scrollbar-color:var(--t-scroll-thumb) var(--t-scroll-track);
+}
+
+.messageRow { display:flex; align-items:flex-start; gap:0.75rem; width:100%; min-width:0; }
+.avatarLena,.avatarSarah { width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#f43f5e,#e11d48); color:white; font-size:0.75rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.avatarDidier,.avatarMarcus { width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#0284c7,#2563eb); color:white; font-size:0.75rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.avatarIQ { width:28px; height:28px; border-radius:var(--t-card-radius-override); background:var(--t-avatar-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:var(--t-avatar-shadow); }
+
+.messageContent { flex:1; min-width:0; max-width:100%; display:flex; flex-direction:column; gap:0.25rem; }
+.messageHeader  { display:flex; align-items:baseline; gap:0.5rem; flex-wrap:wrap; }
+.authorName     { font-size:0.8rem; font-weight:600; color:var(--t-text-1); }
+.authorNameIQ   { font-size:0.8rem; font-weight:600; color:var(--t-eyebrow-color); }
+.messageTime    { font-size:0.68rem; color:var(--t-text-4); }
+.messageText    { font-size:0.82rem; color:var(--t-text-2); line-height:1.5; word-break:break-word; }
+
+.botAnswerBubble {
+  background:var(--t-accent-subtle); border:1px solid var(--t-accent-border);
+  border-radius:var(--t-card-radius-override); padding:0.75rem 0.85rem;
+  display:flex; flex-direction:column; gap:0.5rem;
+  min-width:0; max-width:100%; box-sizing:border-box;
+}
+.answerText { font-size:0.82rem; color:var(--t-text-1); line-height:1.55; word-break:break-word; }
+.highlightSpan {
+  background:var(--t-answer-bg); color:var(--t-answer-color);
+  font-weight:600; border-radius:3px; padding:0 4px;
+}
+.botMotionProof {
+  margin:0.65rem 0; border-radius:var(--t-card-radius-override);
+  overflow:hidden; border:1px solid var(--t-border-1);
+  width:100%; max-width:100%; box-sizing:border-box;
+}
+.sourceBadge {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  font-size:0.68rem; font-family:var(--font-mono);
+  color:var(--t-answer-color); background:var(--t-answer-bg);
+  padding:0.2rem 0.5rem; border-radius:4px; width:fit-content;
+  max-width:100%; flex-wrap:wrap; word-break:break-word;
+}
+.noAnswerBubble {
+  background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2);
+  border-radius:var(--t-card-radius-override); padding:0.75rem 0.85rem;
+  display:flex; flex-direction:column; gap:0.35rem;
+  min-width:0; max-width:100%; box-sizing:border-box;
+}
+.noAnswerHead    { display:flex; align-items:center; gap:0.4rem; font-size:0.78rem; color:#fbbf24; }
+.noAnswerExplain { font-size:0.78rem; color:var(--t-text-3); line-height:1.45; word-break:break-word; }
+
+/* Thread input */
+.threadInputBox {
+  padding:0.75rem 1rem 0.85rem; background:var(--t-surface-hover);
+  border-top:1px solid var(--t-border-0); display:flex; flex-direction:column; gap:0.6rem;
+}
+.inputInner { display:flex; align-items:center; }
+.threadInput { width:100%; background:transparent; border:none; color:var(--t-text-1); font-size:0.82rem; font-family:inherit; outline:none; }
+.threadInput::placeholder { color:var(--t-text-4); }
+.inputToolbar { display:flex; align-items:center; justify-content:space-between; }
+.toolIcons { display:flex; align-items:center; gap:0.2rem; }
+.toolBtn { color:var(--t-text-4); background:none; border:none; padding:0.25rem 0.4rem; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s ease; font-family:inherit; }
+.toolBtn:hover { background:var(--t-surface-hover); color:var(--t-text-1); }
+.sendBtn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  font-size:0.74rem; font-weight:500; font-family:inherit;
+  color:var(--t-btn-primary-color); background:var(--t-btn-primary-bg);
+  border:1px solid var(--t-btn-primary-border); border-radius:6px;
+  padding:0.35rem 0.75rem; cursor:pointer;
+  box-shadow:var(--t-btn-primary-shadow); transition:all 0.18s ease;
+}
+.sendBtn:hover { background:var(--t-btn-primary-hover-bg); transform:translateY(-1px); }
+
+@media (max-width: 1100px) { .boardCanvas { grid-template-columns:1fr; padding:1.25rem; gap:1.5rem; } }
+@media (max-width: 680px)  { .boardGrid { grid-template-columns:1fr; } .boardCanvas { padding:0.85rem; } }
+
+/* ── 06: IMPERIUM ("Dark Golden Royal Edition") ──────────────── */
+[data-theme="imperium"] .section {
+  background: #000000 !important;
+}
+
+[data-theme="imperium"] .boardCanvas {
+  background: #080808 !important;
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(229, 199, 102, 0.15);
+  border-radius: 12px;
+}
+
+[data-theme="imperium"] .canvasAtmosphere {
+  display: none !important;
+}
+
+[data-theme="imperium"] .floatingThread {
+  background: #050505 !important;
+  border: 1px solid rgba(168, 132, 42, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(229, 199, 102, 0.15);
+  border-radius: 12px;
+}
+
+[data-theme="imperium"] .threadHeader {
+  background: #0c0c0c !important;
+  border-bottom: 1px solid rgba(168, 132, 42, 0.25);
+}
+
+[data-theme="imperium"] .threadTitle {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+  color: #fff4c7;
+}
+
+[data-theme="imperium"] .threadChannel {
+  color: #c9a227;
+}
+
+[data-theme="imperium"] .issueCard {
+  background: #080808 !important;
+  border: 1px solid rgba(168, 132, 42, 0.28);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .issueCardActive {
+  background: #121212 !important;
+  border-color: #d4af37;
+  box-shadow: 0 0 16px rgba(201, 162, 39, 0.25);
+}
+
+[data-theme="imperium"] .botAnswerBubble {
+  background: rgba(201, 162, 39, 0.08);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .answerText {
+  color: #fff4c7;
+}
+
+[data-theme="imperium"] .highlightSpan {
+  background: rgba(201, 162, 39, 0.25);
+  color: #fff4c7;
+  border-bottom: 1px solid #c9a227;
+}
+
+[data-theme="imperium"] .sourceBadge {
+  background: rgba(201, 162, 39, 0.15);
+  color: #f5e7b2;
+  border: 1px solid rgba(201, 162, 39, 0.35);
+}
+
+[data-theme="imperium"] .noAnswerBubble {
+  background: rgba(42, 15, 18, 0.45);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .threadInputBox {
+  background: #040404 !important;
+  border-top: 1px solid rgba(168, 132, 42, 0.3);
+}
+
+/* ── 02: VOID THEME OVERRIDES ── */
+[data-theme="void"] .canvasAtmosphere {
+  display: none !important;
+}
+
+[data-theme="void"] .section {
+  background: #000000 !important;
+}
+
+[data-theme="void"] .boardCanvas {
+  background: #080808 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+  border-radius: 12px;
+}
+
+[data-theme="void"] .floatingThread {
+  background: #050505 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95);
+  border-radius: 12px;
+}
+
+[data-theme="void"] .threadHeader {
+  background: #0c0c0c !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="void"] .issueCard {
+  background: #080808 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="void"] .issueCardActive {
+  background: #141414 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="void"] .botAnswerBubble {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+[data-theme="void"] .highlightSpan {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+
+[data-theme="void"] .sourceBadge {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="void"] .threadInputBox {
+  background: #040404 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}

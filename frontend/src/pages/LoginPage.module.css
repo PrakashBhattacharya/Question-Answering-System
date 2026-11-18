@@ -1,0 +1,405 @@
+/* ================================================================
+   LINEAR FULL-SCREEN LOGIN / SIGNUP PAGE — v3
+   ================================================================ */
+
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--t-bg);
+  color: var(--t-text-1);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ── Ambient Atmosphere ───────────────────────────────────────── */
+.beam {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 380px;
+  background: linear-gradient(
+    to bottom,
+    var(--t-topbar-beam) 0%,
+    var(--t-accent-glow) 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: beam-pulse 4s ease-in-out infinite;
+}
+
+.halo {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 260px;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    var(--t-topbar-halo) 0%,
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: halo-breathe 5s ease-in-out infinite;
+}
+
+.gridOverlay {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, #000 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, #000 40%, transparent 85%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes beam-pulse {
+  0%, 100% { opacity: 0.8; }
+  50%       { opacity: 1;   }
+}
+
+@keyframes halo-breathe {
+  0%, 100% { opacity: 0.75; }
+  50%       { opacity: 1;    }
+}
+
+/* ── Top Header ──────────────────────────────────────────────── */
+.topHeader {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--t-text-3, #8a8f98);
+  font-size: 0.82rem;
+  font-weight: 450;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.38rem 0.7rem;
+  border-radius: 8px;
+  transition: all 0.16s ease;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+
+.backLink:hover {
+  color: var(--t-text-1, #f7f8f8);
+  background: var(--t-surface-hover, rgba(255, 255, 255, 0.04));
+}
+
+.logoBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--t-text-1, #f7f8f8);
+}
+
+.logoBackMark {
+  width: 22px;
+  height: 22px;
+  background: rgba(94, 106, 210, 0.15);
+  border: 1px solid rgba(94, 106, 210, 0.3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--t-text-3, #8a8f98);
+  background: var(--t-surface-1, rgba(255,255,255,0.04));
+  border: 1px solid var(--t-border-1, rgba(255,255,255,0.07));
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+}
+
+.greenDot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(74,222,128,0.6);
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+/* ── Main Content ────────────────────────────────────────────── */
+.mainContent {
+  flex: 1;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0;
+  padding: 1.5rem 1.5rem 3rem;
+  width: 100%;
+}
+
+.brandHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  animation: fadeInDown 0.5s var(--ease-out) both;
+}
+
+.logoBadge {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, rgba(94, 106, 210, 0.18), rgba(168, 85, 247, 0.12));
+  border: 1px solid rgba(94, 106, 210, 0.3);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.12) inset,
+    0 0 32px rgba(94, 106, 210, 0.2),
+    0 4px 16px rgba(0,0,0,0.4);
+}
+
+.logoHalo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 20px;
+  background: radial-gradient(circle, rgba(94, 106, 210, 0.15) 0%, transparent 70%);
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+
+.pageTitle {
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--t-text-1, #f7f8f8);
+  line-height: 1.2;
+}
+
+.pageSub {
+  font-size: 0.88rem;
+  color: var(--t-text-3, #8a8f98);
+  line-height: 1.65;
+  max-width: 44ch;
+}
+
+/* ── Card Wrapper ────────────────────────────────────────────── */
+.cardWrapper {
+  width: 100%;
+  max-width: 420px;
+  animation: scaleIn 0.45s 0.1s var(--ease-out) both;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  font-size: 0.75rem;
+  color: #626675;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.footerLink {
+  font-size: 0.75rem;
+  color: #626675;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.55rem;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+  font-family: inherit;
+}
+
+.footerLink:hover {
+  color: #8a8f98;
+  background: rgba(255,255,255,0.03);
+}
+
+/* ── Imperium Theme Overrides for Login Page ── */
+[data-theme="imperium"] .pageContainer {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="imperium"] .beam,
+[data-theme="imperium"] .halo,
+[data-theme="imperium"] .gridOverlay {
+  display: none !important;
+}
+
+[data-theme="imperium"] .backLink {
+  color: #c9b98a;
+}
+
+[data-theme="imperium"] .backLink:hover {
+  color: #fff4c7;
+  background: rgba(201, 162, 39, 0.1);
+}
+
+[data-theme="imperium"] .logoBackMark {
+  background: rgba(201, 162, 39, 0.15);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+[data-theme="imperium"] .logoBack {
+  color: #f5e7b2;
+}
+
+[data-theme="imperium"] .statusIndicator {
+  background: rgba(201, 162, 39, 0.1);
+  border-color: rgba(168, 132, 42, 0.3);
+  color: #d4af37;
+}
+
+[data-theme="imperium"] .logoBadge {
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.2), rgba(168, 132, 42, 0.12));
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 1px 0 rgba(255, 244, 199, 0.2) inset, 0 0 32px rgba(201, 162, 39, 0.2), 0 4px 16px rgba(0,0,0,0.6);
+}
+
+[data-theme="imperium"] .pageTitle {
+  font-family: 'Cinzel', serif !important;
+  color: #fff4c7 !important;
+  letter-spacing: 0.01em;
+}
+
+[data-theme="imperium"] .pageSub {
+  color: #c9b98a;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+}
+
+[data-theme="imperium"] .footer {
+  border-top-color: rgba(168, 132, 42, 0.18);
+  color: #8f805f;
+}
+
+[data-theme="imperium"] .footerLink {
+  color: #8f805f;
+}
+
+[data-theme="imperium"] .footerLink:hover {
+  color: #d4af37;
+  background: rgba(201, 162, 39, 0.08);
+}
+
+/* ── Cloud Theme Overrides for Login Page ── */
+[data-theme="cloud"] .pageContainer {
+  background: #f5f7fa !important;
+}
+[data-theme="cloud"] .pageTitle {
+  color: #0f172a !important;
+}
+[data-theme="cloud"] .pageSub {
+  color: #475569 !important;
+}
+[data-theme="cloud"] .backLink {
+  color: #334155;
+}
+[data-theme="cloud"] .backLink:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+}
+[data-theme="cloud"] .logoBackMark {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+[data-theme="cloud"] .logoBack {
+  color: #0f172a;
+}
+[data-theme="cloud"] .footer {
+  border-top-color: #e2e8f0;
+  color: #64748b;
+}
+[data-theme="cloud"] .footerLink {
+  color: #64748b;
+}
+[data-theme="cloud"] .footerLink:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Ember Theme Overrides for Login Page ── */
+[data-theme="ember"] .pageContainer {
+  background: #fff8f0 !important;
+}
+[data-theme="ember"] .pageTitle {
+  color: #1c0a00 !important;
+}
+[data-theme="ember"] .pageSub {
+  color: #78350f !important;
+}
+[data-theme="ember"] .backLink {
+  color: #431407;
+}
+[data-theme="ember"] .backLink:hover {
+  color: #ea580c;
+  background: rgba(234, 88, 12, 0.08);
+}
+[data-theme="ember"] .logoBackMark {
+  background: #ffffff;
+  border-color: #fed7aa;
+}
+[data-theme="ember"] .logoBack {
+  color: #1c0a00;
+}
+[data-theme="ember"] .footer {
+  border-top-color: rgba(234, 88, 12, 0.14);
+  color: #78350f;
+}
+[data-theme="ember"] .footerLink {
+  color: #78350f;
+}
+[data-theme="ember"] .footerLink:hover {
+  color: #1c0a00;
+  background: rgba(234, 88, 12, 0.06);
+}

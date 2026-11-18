@@ -1,0 +1,83 @@
+.cursorGlow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-1000px, -1000px) translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.11) 0%,
+    rgba(99, 102, 241, 0.04) 35%,
+    rgba(99, 102, 241, 0) 70%
+  );
+}
+
+/* Hide on touch / mobile devices */
+@media (pointer: coarse) {
+  .cursorGlow {
+    display: none !important;
+  }
+}
+
+/* Imperium theme: very light, minimal warm golden background glow */
+:global([data-theme="imperium"]) .cursorGlow {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.10) 0%,
+    rgba(212, 175, 55, 0.04) 35%,
+    rgba(212, 175, 55, 0) 70%
+  );
+}
+
+/* Void theme: ultra-minimal faint white glow */
+:global([data-theme="void"]) .cursorGlow {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.025) 35%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+/* Pixelcraft theme: faint green voxel glow */
+:global([data-theme="pixelcraft"]) .cursorGlow {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(34, 197, 94, 0.09) 0%,
+    rgba(34, 197, 94, 0.035) 35%,
+    rgba(34, 197, 94, 0) 70%
+  );
+}
+
+/* Cloud theme: subtle soft blue tint */
+:global([data-theme="cloud"]) .cursorGlow {
+  mix-blend-mode: normal;
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.06) 0%,
+    rgba(37, 99, 235, 0.02) 35%,
+    rgba(37, 99, 235, 0) 70%
+  );
+}
+
+/* Ember theme: subtle warm amber glow */
+:global([data-theme="ember"]) .cursorGlow {
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle,
+    rgba(234, 88, 12, 0.09) 0%,
+    rgba(234, 88, 12, 0.035) 35%,
+    rgba(234, 88, 12, 0) 70%
+  );
+}

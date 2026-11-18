@@ -1,0 +1,235 @@
+/* ================================================================
+   HOW IT WORKS SECTION — Theme-aware
+   ================================================================ */
+.section { position:relative; padding:clamp(5rem,8vw,7.5rem) 0; overflow:hidden; }
+
+.topLine {
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, var(--t-accent-border) 50%, transparent);
+}
+
+.header {
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center; gap:1.1rem; margin-bottom:4rem;
+  transition:opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.header.revealed { opacity:1; transform:translateY(0); }
+.header .section-subheading { text-align:center; margin:0 auto; }
+
+.motionGraphicCard {
+  position:relative; z-index:2; max-width:1060px; margin:0 auto 3.25rem auto;
+  border-radius:var(--radius-2xl); overflow:visible;
+}
+.motionGraphicGlow {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:90%; height:80%;
+  background: radial-gradient(ellipse at center, var(--t-accent-subtle) 0%, transparent 70%);
+  filter:blur(48px); pointer-events:none; z-index:0;
+}
+
+.stepsRow {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  position:relative; z-index:2; gap:2.75rem;
+}
+
+/* Step base */
+.step {
+  position:relative; z-index:2; padding:2.2rem 1.85rem 2.1rem;
+  border-radius:var(--radius-xl, 18px);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  display:flex; flex-direction:column;
+  transition:all 0.25s cubic-bezier(0.16,1,0.3,1); overflow:hidden;
+}
+.step::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 55%; height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+.topSpecular {
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg,transparent,var(--t-border-2) 50%,transparent);
+}
+
+/* Each step picks up its color from a micro-token based on the theme bg + accent with light faded on one side */
+.step_cyan {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, var(--t-surface-0) 80%);
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  box-shadow: inset 1px 1px 0 rgba(34, 211, 238, 0.32), var(--t-card-shadow);
+}
+.step_cyan:hover {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, var(--t-surface-0) 85%);
+  border-color: rgba(34, 211, 238, 0.45); transform: translateY(-3px);
+  box-shadow: inset 1px 1px 0 rgba(34, 211, 238, 0.45), var(--t-card-shadow-hover), 0 0 32px rgba(34, 211, 238, 0.12);
+}
+
+.step_blue {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, var(--t-surface-0) 80%);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  box-shadow: inset 1px 1px 0 rgba(99, 102, 241, 0.32), var(--t-card-shadow);
+}
+.step_blue:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, var(--t-surface-0) 85%);
+  border-color: rgba(99, 102, 241, 0.45); transform: translateY(-3px);
+  box-shadow: inset 1px 1px 0 rgba(99, 102, 241, 0.45), var(--t-card-shadow-hover), 0 0 32px rgba(99, 102, 241, 0.12);
+}
+
+.step_purple {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, var(--t-surface-0) 80%);
+  border: 1px solid rgba(168, 85, 247, 0.22);
+  box-shadow: inset 1px 1px 0 rgba(168, 85, 247, 0.32), var(--t-card-shadow);
+}
+.step_purple:hover {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, var(--t-surface-0) 85%);
+  border-color: rgba(168, 85, 247, 0.45); transform: translateY(-3px);
+  box-shadow: inset 1px 1px 0 rgba(168, 85, 247, 0.45), var(--t-card-shadow-hover), 0 0 32px rgba(168, 85, 247, 0.12);
+}
+
+.step_green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(255, 255, 255, 0.02) 38%, var(--t-surface-0) 80%);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  box-shadow: inset 1px 1px 0 rgba(16, 185, 129, 0.32), var(--t-card-shadow);
+}
+.step_green:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, var(--t-surface-0) 85%);
+  border-color: rgba(16, 185, 129, 0.45); transform: translateY(-3px);
+  box-shadow: inset 1px 1px 0 rgba(16, 185, 129, 0.45), var(--t-card-shadow-hover), 0 0 32px rgba(16, 185, 129, 0.12);
+}
+
+/* Pixelcraft: hard shadow hover instead of translateY */
+[data-theme="pixelcraft"] .step_cyan:hover,
+[data-theme="pixelcraft"] .step_blue:hover,
+[data-theme="pixelcraft"] .step_purple:hover,
+[data-theme="pixelcraft"] .step_green:hover {
+  transform: translate(-1px,-1px);
+}
+
+.step.revealed { opacity:1; transform:translateY(0); }
+
+.stepTopBar { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.65rem; }
+.stepNum {
+  font-size:0.74rem; font-weight:700; font-family:var(--font-mono);
+  color:var(--t-text-4); letter-spacing:0.08em;
+}
+.stepBadge {
+  font-size:0.62rem; font-family:var(--font-mono); font-weight:700;
+  letter-spacing:0.08em; padding:0.18rem 0.55rem;
+  border-radius:var(--t-card-radius-override); text-transform:uppercase;
+  border:1px solid var(--t-border-1); color:var(--t-text-3);
+}
+
+.stepInner { display:flex; flex-direction:column; align-items:center; text-align:center; gap:0.85rem; flex:1; }
+
+.iconCircle {
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  margin:0.25rem 0 0.4rem;
+  box-shadow: 0 1px 0 var(--t-border-2) inset, var(--t-card-shadow);
+  transition:all 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+.step:hover .iconCircle { transform:scale(1.06); }
+
+.stepText { display:flex; flex-direction:column; gap:0.55rem; }
+.stepTitle { font-size:1.06rem; font-weight:600; letter-spacing:-0.02em; color:var(--t-text-1); line-height:1.35; }
+.stepDesc  { font-size:0.85rem; line-height:1.72; color:var(--t-text-3); }
+
+.stepMetaRow {
+  display:inline-flex; align-items:center; gap:0.45rem; margin-top:auto;
+  padding:0.32rem 0.72rem; background:var(--t-surface-0);
+  border:1px solid var(--t-border-1); border-radius:9999px; width:fit-content;
+}
+.metaDot { width:5px; height:5px; border-radius:50%; flex-shrink:0; box-shadow:0 0 6px currentColor; }
+.metaLabel { font-family:var(--font-mono); font-size:0.68rem; color:var(--t-text-2); white-space:nowrap; }
+
+@media (max-width: 1024px) { .stepsRow { grid-template-columns:repeat(2,1fr); gap:2rem; } }
+@media (max-width: 600px)  { .stepsRow { grid-template-columns:1fr; gap:1.5rem; } }
+
+/* ── 06: IMPERIUM ("Dark Golden Royal Edition") ─────────────── */
+[data-theme="imperium"] .section {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="imperium"] .motionGraphicGlow {
+  display: none !important;
+}
+
+[data-theme="imperium"] .step_cyan,
+[data-theme="imperium"] .step_blue,
+[data-theme="imperium"] .step_purple,
+[data-theme="imperium"] .step_green {
+  background: #080808 !important;
+  border-color: rgba(168, 132, 42, 0.28) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 1px rgba(168, 132, 42, 0.25) !important;
+}
+
+[data-theme="imperium"] .step_cyan:hover,
+[data-theme="imperium"] .step_blue:hover,
+[data-theme="imperium"] .step_purple:hover,
+[data-theme="imperium"] .step_green:hover {
+  background: #0c0c0c !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+}
+
+[data-theme="imperium"] .stepTitle {
+  font-family: 'Cinzel', serif !important;
+  color: #fff4c7 !important;
+}
+
+[data-theme="imperium"] .stepDesc {
+  color: #c9b98a !important;
+}
+
+[data-theme="imperium"] .iconCircle {
+  background: rgba(201, 162, 39, 0.12) !important;
+  border: 1px solid rgba(201, 162, 39, 0.35) !important;
+  color: #d4af37 !important;
+}
+
+[data-theme="imperium"] .stepMetaRow {
+  background: #040404 !important;
+  border-color: rgba(168, 132, 42, 0.22) !important;
+}
+
+/* ── 02: VOID THEME OVERRIDES ── */
+[data-theme="void"] .motionGraphicGlow {
+  display: none !important;
+}
+
+[data-theme="void"] .section {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="void"] .step_cyan,
+[data-theme="void"] .step_blue,
+[data-theme="void"] .step_purple,
+[data-theme="void"] .step_green {
+  background: #080808 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
+
+[data-theme="void"] .step_cyan:hover,
+[data-theme="void"] .step_blue:hover,
+[data-theme="void"] .step_purple:hover,
+[data-theme="void"] .step_green:hover {
+  background: #0c0c0c !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 16px rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="void"] .iconCircle {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .stepMetaRow {
+  background: #040404 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+

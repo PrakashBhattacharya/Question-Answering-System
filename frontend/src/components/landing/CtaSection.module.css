@@ -1,0 +1,139 @@
+/* ================================================================
+   CTA SECTION — Theme-aware
+   ================================================================ */
+.section {
+  position:relative;
+  padding:3rem 0 clamp(4rem,6vw,6rem) 0;
+  background: var(--t-section-bg-a);
+}
+.topLine {
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--t-border-1) 50%,transparent);
+}
+
+.card {
+  position:relative;
+  background: var(--t-card-bg);
+  border:1px solid var(--t-card-border);
+  border-radius:var(--t-card-radius-override);
+  padding:clamp(3rem,6vw,4.5rem) clamp(2rem,6vw,4rem);
+  text-align:center; display:flex; flex-direction:column;
+  align-items:center; gap:1.25rem; overflow:hidden;
+  box-shadow: var(--t-card-shadow);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  transition:opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.card.revealed { opacity:1; transform:translateY(0); }
+
+.glow {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:700px; height:400px;
+  background:radial-gradient(ellipse, var(--t-accent-subtle) 0%, transparent 70%);
+  pointer-events:none; animation:glow-breathe 5s ease-in-out infinite;
+}
+.beam {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:320px; height:100px;
+  background:radial-gradient(ellipse at 50% 0%, var(--t-topbar-beam) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+.eyebrow {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--t-eyebrow-color); background:var(--t-eyebrow-bg);
+  border:1px solid var(--t-eyebrow-border); padding:0.28rem 0.7rem;
+  border-radius:var(--t-eyebrow-radius); position:relative; z-index:1;
+}
+.heading {
+  font-size:clamp(1.8rem,3.5vw,2.75rem); font-weight:700;
+  line-height:1.12; letter-spacing:-0.03em; color:var(--t-text-1);
+  position:relative; z-index:1;
+}
+.sub {
+  font-size:clamp(0.9rem,1.3vw,1rem); color:var(--t-text-4);
+  line-height:1.7; max-width:46ch; position:relative; z-index:1;
+}
+.actions {
+  display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;
+  justify-content:center; position:relative; z-index:1; margin-top:0.25rem;
+}
+
+.primaryBtn {
+  display:inline-flex; align-items:center; gap:0.45rem;
+  padding:0.72rem 1.5rem; font-size:0.9rem; font-weight:500;
+  font-family:inherit; background:var(--t-btn-primary-bg);
+  color:var(--t-btn-primary-color); border:1px solid var(--t-btn-primary-border);
+  border-radius:var(--t-btn-primary-radius); cursor:pointer;
+  transition:all 0.2s ease; box-shadow:var(--t-btn-primary-shadow);
+}
+.primaryBtn:hover {
+  background:var(--t-btn-primary-hover-bg); transform:translateY(-1px);
+  box-shadow:var(--t-btn-primary-hover-shadow);
+}
+
+.ghostBtn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.72rem 1.3rem; font-size:0.88rem; font-weight:450;
+  font-family:inherit; color:var(--t-text-3);
+  background:var(--t-surface-hover); border:1px solid var(--t-border-1);
+  border-radius:var(--t-btn-primary-radius); cursor:pointer; transition:all 0.2s ease;
+}
+.ghostBtn:hover {
+  color:var(--t-text-1); background:var(--t-surface-active); border-color:var(--t-border-2);
+}
+.note { font-size:0.75rem; color:var(--t-text-4); position:relative; z-index:1; }
+
+/* ── 06: IMPERIUM ("Dark Golden Royal Edition") ─────────────── */
+[data-theme="imperium"] .section {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="imperium"] .glow,
+[data-theme="imperium"] .beam {
+  display: none !important;
+}
+
+[data-theme="imperium"] .card {
+  background: #080808 !important;
+  border-color: rgba(168, 132, 42, 0.3) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 1px rgba(201, 162, 39, 0.25) !important;
+}
+
+[data-theme="imperium"] .heading {
+  font-family: 'Cinzel', serif !important;
+  color: #fff4c7 !important;
+}
+
+[data-theme="imperium"] .sub {
+  color: #c9b98a !important;
+}
+
+[data-theme="imperium"] .primaryBtn {
+  background: linear-gradient(135deg, #c9a227 0%, #e5c766 50%, #d4af37 100%) !important;
+  color: #0b0906 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="imperium"] .primaryBtn * {
+  color: #0b0906 !important;
+}
+
+[data-theme="imperium"] .ghostBtn {
+  background: #0c0c0c !important;
+  border-color: rgba(168, 132, 42, 0.3) !important;
+  color: #f5e7b2 !important;
+}
+
+/* ── 02: VOID THEME OVERRIDES ── */
+[data-theme="void"] .glow,
+[data-theme="void"] .beam {
+  display: none !important;
+}
+
+[data-theme="void"] .section {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+

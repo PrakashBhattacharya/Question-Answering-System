@@ -1,0 +1,310 @@
+.container {
+  background: var(--t-card-bg, rgba(17, 24, 39, 0.7));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--t-radius-card, 14px);
+  padding: 1.25rem 1.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  box-shadow: var(--t-card-shadow, 0 8px 30px rgba(0, 0, 0, 0.28)), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--t-accent-1, #6366f1), transparent);
+  opacity: 0.5;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.06));
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.radarIconWrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--t-accent-subtle, rgba(99, 102, 241, 0.12));
+  border: 1px solid var(--t-accent-border, rgba(99, 102, 241, 0.25));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.titleStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.headerTitle {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--t-text-1, #f8fafc);
+}
+
+.headerSub {
+  font-size: 0.7rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.5));
+}
+
+/* ── Live Scanner Steps Badge ──────────────────────────────── */
+.scannerBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.25rem 0.65rem;
+}
+
+.scannerSpin {
+  color: #38bdf8;
+  animation: spinScan 1s linear infinite;
+}
+
+@keyframes spinScan {
+  100% { transform: rotate(360deg); }
+}
+
+.scannerDone {
+  color: #34d399;
+}
+
+.scannerSteps {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.64rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.stepArrow {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.6rem;
+}
+
+.stepActive {
+  color: #38bdf8;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+  animation: pulseStep 0.6s infinite alternate;
+}
+
+@keyframes pulseStep {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+.stepDone {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stepVerified {
+  color: #34d399;
+  text-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+}
+
+.offsetAnchorPill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-family: var(--t-font-mono, monospace);
+  background: var(--t-bg-elevated, rgba(255, 255, 255, 0.035));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.anchorIcon {
+  color: var(--t-accent-1, #38bdf8);
+}
+
+.offsetLabel {
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+}
+
+.offsetCoords {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.offsetCoords code {
+  color: #38bdf8;
+  font-weight: 700;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.08rem 0.25rem;
+  border-radius: 3px;
+}
+
+.coordArrow {
+  color: var(--t-text-3, rgba(255, 255, 255, 0.4));
+}
+
+.lenTag {
+  color: var(--t-text-3, rgba(255, 255, 255, 0.4));
+  font-size: 0.65rem;
+}
+
+/* ── Context Box with Laser Scanner Line ───────────────────── */
+.contextBox {
+  position: relative;
+  background: var(--t-evidence-bg, rgba(0, 0, 0, 0.25));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.05));
+  border-radius: var(--t-radius-card, 10px);
+  padding: 1.15rem 1.35rem 1.85rem;
+  max-height: 220px;
+  overflow-y: auto;
+  line-height: 1.85;
+}
+
+.laserScannerLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, transparent);
+  box-shadow: 0 0 12px #38bdf8;
+  animation: sweepLaser 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes sweepLaser {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(210px); opacity: 0; }
+}
+
+.contextText {
+  font-size: 0.9rem;
+  color: var(--t-evidence-text, rgba(248, 250, 252, 0.85));
+  font-family: inherit;
+  position: relative;
+}
+
+.highlightSpan {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.22) 0%, rgba(99, 102, 241, 0.48) 100%);
+  color: #ffffff;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  border-bottom: 2px solid #38bdf8;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  margin-bottom: 0.6rem;
+}
+
+.spanLocked {
+  animation: lockFlash 0.5s ease-out;
+}
+
+@keyframes lockFlash {
+  0% { filter: brightness(1.6); }
+  100% { filter: brightness(1); }
+}
+
+.bracket {
+  color: #38bdf8;
+  font-weight: 700;
+  margin: 0 0.1rem;
+}
+
+.spanContent {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+.groundingBeam {
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.spanIndicatorTag {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 0.05rem 0.35rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.proofBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-family: var(--t-font-mono, monospace);
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.proofIconGreen {
+  color: #10b981;
+}
+
+.proofNote {
+  font-size: 0.72rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.45));
+}

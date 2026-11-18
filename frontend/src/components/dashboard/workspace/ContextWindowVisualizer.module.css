@@ -1,0 +1,232 @@
+.container {
+  background: var(--t-card-bg, rgba(15, 23, 42, 0.7));
+  border: 1px solid var(--t-border-1, rgba(255, 255, 255, 0.08));
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 1.15rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.iconWrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerIcon {
+  color: var(--t-accent-1, #818cf8);
+}
+
+.titleStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.headerTitle {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--t-text-1, #f8fafc);
+}
+
+.headerSub {
+  font-size: 0.68rem;
+  color: var(--t-text-3, rgba(255, 255, 255, 0.5));
+}
+
+.windowsBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.7rem;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+}
+
+.bodyGrid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .bodyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.windowList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.windowPill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.65rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.windowPill:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.windowSelected {
+  border-color: var(--t-accent-1, #818cf8);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.windowWinning {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.pillLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.windowIdText {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--t-text-1, #f8fafc);
+}
+
+.bestMatchTag {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.pillArrow {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.windowDetailBox {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.detailTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.detailLabel {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #818cf8;
+}
+
+.detailRange {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tokenPointersTag {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.68rem;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.pointerTagLabel {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.pointerDivider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.detailSnippet {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.resolvedWindowBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.68rem;
+  color: #34d399;
+  padding-top: 0.3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bannerIconGreen {
+  color: #10b981;
+}

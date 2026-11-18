@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ContextIQ — Ultra-HD High-Contrast Motion Graphics Video Generator</title>
+  <style>
+    body {
+      background: #050608;
+      color: #f7f8f8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    h1 { margin: 0; font-size: 1.5rem; color: #818cf8; }
+    #status { font-family: monospace; font-size: 1.15rem; color: #38bdf8; font-weight: 700; }
+    .canvas-container {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.9);
+      background: #08090d;
+      max-width: 95vw;
+    }
+    canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    .log-box {
+      width: 100%;
+      max-width: 900px;
+      height: 160px;
+      background: #0a0c10;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 0.8rem;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      overflow-y: auto;
+    }
+    .progress-bar {
+      width: 100%;
+      max-width: 900px;
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #6366f1, #38bdf8, #34d399);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+  <h1>ContextIQ Ultra-HD High-Contrast Motion Graphics Generator</h1>
+  <div id="status">Initializing...</div>
+  <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+  <div class="canvas-container">
+    <canvas id="renderCanvas" width="1600" height="1000"></canvas>
+  </div>
+  <div id="log" class="log-box"></div>
+
+  <script>
+    const canvas = document.getElementById('renderCanvas');
+    const ctx = canvas.getContext('2d');
+    const statusEl = document.getElementById('status');
+    const logEl = document.getElementById('log');
+    const progressFill = document.getElementById('progressFill');
+
+    function log(msg) {
+      logEl.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    // ── Helper Drawing Functions ────────────────────────────────
+    function roundRect(ctx, x, y, w, h, r) {
+      if (w < 2 * r) r = w / 2;
+      if (h < 2 * r) r = h / 2;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function easeOutQuad(t) {
+      return 1 - (1 - t) * (1 - t);
+    }
+
+    function clamp(val, min, max) {
+      return Math.min(Math.max(val, min), max);
+    }
+
+    // ── HIGH-BITRATE RECORDER ───────────────────────────────────
+    function recordCanvas(durationSec, fps, drawFrame, onComplete) {
+      const stream = canvas.captureStream(fps);
+      let mimeType = 'video/webm;codecs=vp9';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'video/webm;codecs=vp8';
+      }
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'video/webm';
+      }
+
+      const recorder = new MediaRecorder(stream, {
+        mimeType: mimeType,
+        videoBitsPerSecond: 16000000 // 16 Mbps Ultra-HD crisp bitrate
+      });
+
+      const chunks = [];
+      recorder.ondataavailable = e => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        onComplete(blob);
+      };
+
+      recorder.start();
+
+      const totalFrames = Math.round(durationSec * fps);
+      let frame = 0;
+
+      const interval = setInterval(() => {
+        const progress = frame / totalFrames;
+        drawFrame(progress, frame, totalFrames);
+        progressFill.style.width = `${Math.round(progress * 100)}%`;
+        frame++;
+
+        if (frame >= totalFrames) {
+          clearInterval(interval);
+          setTimeout(() => recorder.stop(), 80);
+        }
+      }, 1000 / fps);
+    }
+
+    async function uploadVideo(blob, filename) {
+      log(`Uploading ${filename} (${(blob.size / 1024).toFixed(1)} KB)...`);
+      try {
+        const res = await fetch(`http://localhost:8000/save-animation?filename=${filename}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'video/webm' },
+          body: blob
+        });
+        const data = await res.json();
+        log(`✓ Successfully saved ${filename}: ${data.status}`);
+      } catch (err) {
+        log(`❌ Error uploading ${filename}: ${err.message}`);
+      }
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // ANIMATION 1: SQUAD 2.0 SAFEGUARD LOOP (1600x1000, 3.6s)
+    // Full-Bleed, Large Bold Typography, Crystal Clear
+    // ════════════════════════════════════════════════════════════════
+    function drawSafeguardFrame(p) {
+      const W = canvas.width;
+      const H = canvas.height;
+      const t = p * 3.6;
+
+      const resetP = t >= 3.3 ? (t - 3.3) / 0.3 : 0;
+      const loopBlend = 1 - easeOutQuad(resetP);
+
+      ctx.fillStyle = '#080a10';
+      ctx.fillRect(0, 0, W, H);
+
+      // Ambient Gold / Amber Glow
+      const aGrad = ctx.createRadialGradient(W * 0.5, H * 0.5, 50, W * 0.5, H * 0.5, 650);
+      aGrad.addColorStop(0, 'rgba(245, 158, 11, 0.28)');
+      aGrad.addColorStop(0.55, 'rgba(180, 83, 9, 0.09)');
+      aGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = aGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Engineering Dot Grid
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let x = 40; x < W; x += 40) {
+        for (let y = 40; y < H; y += 40) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      const padX = 48;
+      const usableW = W - padX * 2;
+
+      // ── Top Header Bar ──
+      const topY = 36;
+      // Left Badge
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.22)';
+      roundRect(ctx, padX, topY, 540, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, padX, topY, 540, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '800 28px monospace';
+      ctx.fillText('🛡️ SQuAD 2.0 SAFEGUARD GATE', padX + 22, topY + 36);
+
+      // Right Metric Badge
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      roundRect(ctx, W - padX - 440, topY, 440, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, W - padX - 440, topY, 440, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 26px monospace';
+      ctx.fillText('NULL THRESHOLD: τ = -1.24', W - padX - 418, topY + 36);
+
+      // ── Question Input Card (y = 110, height 112) ──
+      const qY = 110;
+      const qH = 112;
+
+      ctx.fillStyle = '#101420';
+      roundRect(ctx, padX, qY, usableW, qH, 16);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, padX, qY, usableW, qH, 16);
+      ctx.stroke();
+
+      // Q Tag
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+      roundRect(ctx, padX + 20, qY + 20, 76, 72, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      roundRect(ctx, padX + 20, qY + 20, 76, 72, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '900 36px sans-serif';
+      ctx.fillText('Q:', padX + 42, qY + 68);
+
+      // Question Text in HUGE, BOLD, CRISP WHITE
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 46px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillText('What is the annual enterprise pricing per seat?', padX + 118, qY + 70);
+
+      // ── Document Context Header (y = 244, height 196) ──
+      const docY = 244;
+      const docH = 196;
+
+      ctx.fillStyle = 'rgba(15, 20, 32, 0.85)';
+      roundRect(ctx, padX, docY, usableW, docH, 16);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, padX, docY, usableW, docH, 16);
+      ctx.stroke();
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '800 24px monospace';
+      ctx.fillText('DOCUMENT CONTEXT PASSAGE (IN-MEMORY INDEX):', padX + 28, docY + 44);
+
+      // High-Contrast, Large 40px Text Lines
+      ctx.font = '700 40px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fillText('The ContextIQ API rate limit is 1,000 req/min for developer tier.', padX + 28, docY + 104);
+
+      ctx.fillStyle = '#fde68a';
+      ctx.fillText('Enterprise pricing & per-seat licensing are NOT mentioned in document.', padX + 28, docY + 162);
+
+      // ── Scanning Laser Sweep across Text (0.4s - 1.8s) ──
+      if (t >= 0.4 && t <= 1.9 && loopBlend > 0) {
+        const scanP = (t - 0.4) / 1.5;
+        const scanY = docY + 60 + scanP * 115;
+
+        const scanGrad = ctx.createLinearGradient(0, scanY - 35, 0, scanY + 35);
+        scanGrad.addColorStop(0, 'transparent');
+        scanGrad.addColorStop(0.5, 'rgba(245, 158, 11, 0.4)');
+        scanGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(padX, scanY - 35, usableW, 70);
+
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(padX, scanY);
+        ctx.lineTo(padX + usableW, scanY);
+        ctx.stroke();
+
+        // Floating Evaluation Pill
+        const pillW = 600;
+        const pillX = padX + (usableW - pillW) / 2;
+        ctx.fillStyle = '#16110a';
+        roundRect(ctx, pillX, scanY - 26, pillW, 52, 12);
+        ctx.fill();
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, pillX, scanY - 26, pillW, 52, 12);
+        ctx.stroke();
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('EVALUATING NULL LOGIT: -2.84 < τ (-1.24)', pillX + 24, scanY + 9);
+      }
+
+      // ── 1.6s - 3.6s: Massive Amber Safe Reject Decision Box ──
+      if (t >= 1.5 && loopBlend > 0) {
+        const trigAlpha = clamp((t - 1.5) / 0.35, 0, 1) * loopBlend;
+        ctx.save();
+        ctx.globalAlpha = trigAlpha;
+
+        const gBoxY = 464;
+        const gBoxH = 490;
+
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 50;
+        ctx.fillStyle = 'rgba(20, 14, 8, 0.98)';
+        roundRect(ctx, padX, gBoxY, usableW, gBoxH, 22);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3.5;
+        roundRect(ctx, padX, gBoxY, usableW, gBoxH, 22);
+        ctx.stroke();
+
+        // Warning Icon Shield
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
+        ctx.beginPath();
+        ctx.arc(padX + 75, gBoxY + 85, 48, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '900 48px sans-serif';
+        ctx.fillText('⚠', padX + 54, gBoxY + 102);
+
+        // Header Line
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '800 28px monospace';
+        ctx.fillText('SQuAD 2.0 SAFEGUARD GATE TRIGGERED', padX + 145, gBoxY + 68);
+
+        // Decision Badge on top right
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
+        roundRect(ctx, padX + usableW - 320, gBoxY + 40, 280, 50, 12);
+        ctx.fill();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        roundRect(ctx, padX + usableW - 320, gBoxY + 40, 280, 50, 12);
+        ctx.stroke();
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('SAFE REJECT (EM=1)', padX + usableW - 302, gBoxY + 74);
+
+        // Huge Main Headline in Crisp White
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 50px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('Answer Unmentioned in Document · Safe Reject', padX + 145, gBoxY + 134);
+
+        // Subtext in High-Contrast Gold
+        ctx.fillStyle = '#fde047';
+        ctx.font = '700 34px -apple-system, sans-serif';
+        ctx.fillText('Context contains zero evidence. Speculation safely prevented.', padX + 44, gBoxY + 212);
+
+        // Horizontal Divider
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padX + 40, gBoxY + 252);
+        ctx.lineTo(padX + usableW - 40, gBoxY + 252);
+        ctx.stroke();
+
+        // Metrics Grid (2 Wide High-Contrast Pillars)
+        const colW = (usableW - 110) / 2;
+
+        // Metric 1: Threshold Check
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        roundRect(ctx, padX + 40, gBoxY + 278, colW, 172, 16);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, padX + 40, gBoxY + 278, colW, 172, 16);
+        ctx.stroke();
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('NULL THRESHOLD CHECK', padX + 68, gBoxY + 322);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px monospace';
+        ctx.fillText('τ = -1.24 (PASS)', padX + 68, gBoxY + 380);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '700 22px sans-serif';
+        ctx.fillText('Extractive Safety Threshold Enforced', padX + 68, gBoxY + 418);
+
+        // Metric 2: Zero Hallucination Risk
+        ctx.fillStyle = 'rgba(74, 222, 128, 0.14)';
+        roundRect(ctx, padX + 70 + colW, gBoxY + 278, colW, 172, 16);
+        ctx.fill();
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, padX + 70 + colW, gBoxY + 278, colW, 172, 16);
+        ctx.stroke();
+
+        ctx.fillStyle = '#4ade80';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('HALLUCINATION RISK', padX + 98 + colW, gBoxY + 322);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px monospace';
+        ctx.fillText('0.00% (ZERO RISK)', padX + 98 + colW, gBoxY + 380);
+        ctx.fillStyle = '#a7f3d0';
+        ctx.font = '700 22px sans-serif';
+        ctx.fillText('Negative Sampling Grounding Verified', padX + 98 + colW, gBoxY + 418);
+
+        ctx.restore();
+      }
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // ANIMATION 2: EVIDENCE EXTRACTION (1600x1000, 3.6s)
+    // Full-Bleed, Large Bold Typography, Crystal Clear
+    // ════════════════════════════════════════════════════════════════
+    function drawEvidenceFrame(p) {
+      const W = canvas.width;
+      const H = canvas.height;
+      const t = p * 3.6;
+
+      const resetP = t >= 3.3 ? (t - 3.3) / 0.3 : 0;
+      const loopBlend = 1 - easeOutQuad(resetP);
+
+      ctx.fillStyle = '#070a10';
+      ctx.fillRect(0, 0, W, H);
+
+      // Ambient Cyan Glow
+      const eGrad = ctx.createRadialGradient(W * 0.5, H * 0.5, 50, W * 0.5, H * 0.5, 650);
+      eGrad.addColorStop(0, 'rgba(6, 182, 212, 0.28)');
+      eGrad.addColorStop(0.55, 'rgba(99, 102, 241, 0.09)');
+      eGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = eGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Dot Grid
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let x = 40; x < W; x += 40) {
+        for (let y = 40; y < H; y += 40) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      const padX = 48;
+      const usableW = W - padX * 2;
+
+      // ── Top Header Bar ──
+      const topY = 36;
+      // Left Badge
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.22)';
+      roundRect(ctx, padX, topY, 520, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, padX, topY, 520, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#22d3ee';
+      ctx.font = '800 28px monospace';
+      ctx.fillText('✦ INSTANT EVIDENCE EXTRACTION', padX + 22, topY + 36);
+
+      // Dynamic Status Badge
+      const isFound = t >= 1.6;
+      ctx.fillStyle = isFound ? 'rgba(52, 211, 153, 0.24)' : 'rgba(34, 211, 238, 0.16)';
+      roundRect(ctx, W - padX - 400, topY, 400, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = isFound ? '#34d399' : '#22d3ee';
+      ctx.lineWidth = 2;
+      roundRect(ctx, W - padX - 400, topY, 400, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = isFound ? '#34d399' : '#22d3ee';
+      ctx.font = '800 26px monospace';
+      ctx.fillText(isFound ? '✓ EXACT SPAN GROUNDED' : 'SEARCHING CONTEXT…', W - padX - 378, topY + 36);
+
+      // ── Question Input Card (y = 110, height 112) ──
+      const qY = 110;
+      const qH = 112;
+
+      ctx.fillStyle = '#0c1420';
+      roundRect(ctx, padX, qY, usableW, qH, 16);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(34, 211, 238, 0.5)';
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, padX, qY, usableW, qH, 16);
+      ctx.stroke();
+
+      // Q Tag
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.25)';
+      roundRect(ctx, padX + 20, qY + 20, 76, 72, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2;
+      roundRect(ctx, padX + 20, qY + 20, 76, 72, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#22d3ee';
+      ctx.font = '900 36px sans-serif';
+      ctx.fillText('Q:', padX + 42, qY + 68);
+
+      // Question Text in HUGE, BOLD, CRISP WHITE
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 46px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillText('What is the annual leave policy for full-time staff?', padX + 118, qY + 70);
+
+      // ── Document Context Header (y = 244, height 196) ──
+      const docY = 244;
+      const docH = 196;
+
+      ctx.fillStyle = 'rgba(13, 22, 35, 0.85)';
+      roundRect(ctx, padX, docY, usableW, docH, 16);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, padX, docY, usableW, docH, 16);
+      ctx.stroke();
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '800 24px monospace';
+      ctx.fillText('SOURCE DOCUMENT PASSAGE (EXTRACTIVE CONTEXT):', padX + 28, docY + 44);
+
+      // Line 1 with highlighted span
+      const textX = padX + 28;
+      const textY = docY + 106;
+
+      ctx.font = '700 40px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      const line1Pre = 'All full-time employees are entitled to ';
+      const spanStr = '20 days of paid annual leave';
+      const line1Post = ' per year,';
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText(line1Pre, textX, textY);
+      const preW = ctx.measureText(line1Pre).width;
+      const spanX = textX + preW;
+      const spanW = ctx.measureText(spanStr).width;
+
+      // Span Highlight (1.5s - 3.6s)
+      if (t >= 1.5 && loopBlend > 0) {
+        const hP = clamp((t - 1.5) / 0.35, 0, 1) * loopBlend;
+
+        ctx.fillStyle = `rgba(34, 211, 238, ${0.4 * hP})`;
+        roundRect(ctx, spanX - 12, textY - 44, spanW + 24, 60, 10);
+        ctx.fill();
+
+        ctx.strokeStyle = `rgba(34, 211, 238, ${1.0 * hP})`;
+        ctx.lineWidth = 3;
+        roundRect(ctx, spanX - 12, textY - 44, spanW + 24, 60, 10);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 42px -apple-system, sans-serif';
+        ctx.fillText(spanStr, spanX, textY);
+      } else {
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fillText(spanStr, spanX, textY);
+      }
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '700 40px -apple-system, sans-serif';
+      ctx.fillText(line1Post, spanX + spanW, textY);
+
+      // Line 2
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText('accruing at 1.67 days per month. Leave carries over to Q1.', textX, docY + 164);
+
+      // Scanning Beam (0.4s - 1.8s)
+      if (t >= 0.4 && t <= 1.9 && loopBlend > 0) {
+        const scanP = (t - 0.4) / 1.5;
+        const scanY = docY + 60 + scanP * 115;
+
+        const scanGrad = ctx.createLinearGradient(0, scanY - 35, 0, scanY + 35);
+        scanGrad.addColorStop(0, 'transparent');
+        scanGrad.addColorStop(0.5, 'rgba(34, 211, 238, 0.4)');
+        scanGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(padX, scanY - 35, usableW, 70);
+
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(padX, scanY);
+        ctx.lineTo(padX + usableW, scanY);
+        ctx.stroke();
+      }
+
+      // ── 1.5s - 3.6s: Massive Extracted Proof Box ──
+      if (t >= 1.5 && loopBlend > 0) {
+        const trigAlpha = clamp((t - 1.5) / 0.35, 0, 1) * loopBlend;
+        ctx.save();
+        ctx.globalAlpha = trigAlpha;
+
+        const gBoxY = 464;
+        const gBoxH = 490;
+
+        ctx.shadowColor = '#22d3ee';
+        ctx.shadowBlur = 50;
+        ctx.fillStyle = 'rgba(7, 24, 34, 0.98)';
+        roundRect(ctx, padX, gBoxY, usableW, gBoxH, 22);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 3.5;
+        roundRect(ctx, padX, gBoxY, usableW, gBoxH, 22);
+        ctx.stroke();
+
+        // Check Icon Circle
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.28)';
+        ctx.beginPath();
+        ctx.arc(padX + 75, gBoxY + 85, 48, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = '900 48px sans-serif';
+        ctx.fillText('✓', padX + 54, gBoxY + 102);
+
+        // Header Line
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = '800 28px monospace';
+        ctx.fillText('EXACT EVIDENCE SPAN ISOLATED', padX + 145, gBoxY + 68);
+
+        // Right Offsets Badge
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.28)';
+        roundRect(ctx, padX + usableW - 350, gBoxY + 40, 310, 50, 12);
+        ctx.fill();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2;
+        roundRect(ctx, padX + usableW - 350, gBoxY + 40, 310, 50, 12);
+        ctx.stroke();
+        ctx.fillStyle = '#a5f3fc';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('OFFSETS: [CHARS 39–67]', padX + usableW - 332, gBoxY + 74);
+
+        // Huge Main Answer in Crisp White
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 54px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('"20 days of paid annual leave"', padX + 145, gBoxY + 136);
+
+        // Subtext in High-Contrast Cyan
+        ctx.fillStyle = '#67e8f9';
+        ctx.font = '700 34px -apple-system, sans-serif';
+        ctx.fillText('Direct contiguous extraction from Paragraph 1. Verified proof.', padX + 44, gBoxY + 212);
+
+        // Horizontal Divider
+        ctx.strokeStyle = 'rgba(34, 211, 238, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padX + 40, gBoxY + 252);
+        ctx.lineTo(padX + usableW - 40, gBoxY + 252);
+        ctx.stroke();
+
+        // Metrics Grid (2 Wide High-Contrast Pillars)
+        const colW = (usableW - 110) / 2;
+
+        // Metric 1: Source Grounded
+        ctx.fillStyle = 'rgba(52, 211, 153, 0.14)';
+        roundRect(ctx, padX + 40, gBoxY + 278, colW, 172, 16);
+        ctx.fill();
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, padX + 40, gBoxY + 278, colW, 172, 16);
+        ctx.stroke();
+
+        ctx.fillStyle = '#34d399';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('SPAN CERTAINTY', padX + 68, gBoxY + 322);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px monospace';
+        ctx.fillText('99.6% MATCH', padX + 68, gBoxY + 380);
+        ctx.fillStyle = '#a7f3d0';
+        ctx.font = '700 22px sans-serif';
+        ctx.fillText('Peak Start/End Logit Probability', padX + 68, gBoxY + 418);
+
+        // Metric 2: Grounding
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.14)';
+        roundRect(ctx, padX + 70 + colW, gBoxY + 278, colW, 172, 16);
+        ctx.fill();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, padX + 70 + colW, gBoxY + 278, colW, 172, 16);
+        ctx.stroke();
+
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = '800 24px monospace';
+        ctx.fillText('EVIDENCE GROUNDING', padX + 98 + colW, gBoxY + 322);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px monospace';
+        ctx.fillText('100% EXTRACTIVE', padX + 98 + colW, gBoxY + 380);
+        ctx.fillStyle = '#bae6fd';
+        ctx.font = '700 22px sans-serif';
+        ctx.fillText('Zero Speculation / Zero Hallucination', padX + 98 + colW, gBoxY + 418);
+
+        ctx.restore();
+      }
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // ANIMATION 3: BERT PIPELINE (1800x850, 3.6s)
+    // Full-Bleed, Huge Nodes, Bold Typography
+    // ════════════════════════════════════════════════════════════════
+    function drawPipelineFrame(p) {
+      const W = canvas.width;
+      const H = canvas.height;
+      const t = p * 3.6;
+
+      const resetP = t >= 3.3 ? (t - 3.3) / 0.3 : 0;
+      const loopBlend = 1 - easeOutQuad(resetP);
+
+      ctx.fillStyle = '#07090e';
+      ctx.fillRect(0, 0, W, H);
+
+      // Backlight
+      const pGrad = ctx.createRadialGradient(W * 0.5, H * 0.5, 60, W * 0.5, H * 0.5, 750);
+      pGrad.addColorStop(0, 'rgba(99, 102, 241, 0.28)');
+      pGrad.addColorStop(0.55, 'rgba(34, 211, 238, 0.09)');
+      pGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = pGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Dot Grid
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let x = 40; x < W; x += 40) {
+        for (let y = 40; y < H; y += 40) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      // Top Title Bar
+      ctx.fillStyle = 'rgba(129, 140, 248, 0.2)';
+      roundRect(ctx, 40, 32, 680, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = '#818cf8';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 40, 32, 680, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#818cf8';
+      ctx.font = '800 26px monospace';
+      ctx.fillText('⚡ BERT SQuAD 2.0 BIDIRECTIONAL PIPELINE', 62, 68);
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      roundRect(ctx, W - 40 - 450, 32, 450, 52, 12);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+      roundRect(ctx, W - 40 - 450, 32, 450, 52, 12);
+      ctx.stroke();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '800 24px monospace';
+      ctx.fillText('SUB-SECOND SPEED: <120MS', W - 40 - 425, 68);
+
+      const nodes = [
+        { num: '01', title: 'Context', sub: 'Raw Text Input', tag: 'INGEST', color: '#38bdf8', activeTime: 0.0 },
+        { num: '02', title: 'Tokenizer', sub: 'WordPiece Tokens', tag: 'ENCODING', color: '#818cf8', activeTime: 0.7 },
+        { num: '03', title: 'BERT Core', sub: '12-Layer Attention', tag: 'NEURAL', color: '#c084fc', activeTime: 1.4 },
+        { num: '04', title: 'Span Head', sub: 'Start / End Logits', tag: 'SEARCH', color: '#fb923c', activeTime: 2.1 },
+        { num: '05', title: 'Answer Span', sub: 'Verified Proof', tag: 'OUTPUT', color: '#34d399', activeTime: 2.8 },
+      ];
+
+      const nodeW = 310;
+      const nodeH = 480;
+      const startX = 40;
+      const spacing = (W - startX * 2 - nodeW) / 4;
+      const nodeY = 120;
+
+      // Connecting Bus Line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(startX + nodeW / 2, nodeY + nodeH / 2);
+      ctx.lineTo(startX + 4 * spacing + nodeW / 2, nodeY + nodeH / 2);
+      ctx.stroke();
+
+      // Traveling Glowing Energy Particles
+      const particleProgress = (t / 3.6);
+      const totalDist = 4 * spacing;
+      for (let i = 0; i < 8; i++) {
+        const pPhase = (particleProgress + i * 0.13) % 1;
+        const curPx = startX + nodeW / 2 + pPhase * totalDist;
+        if (loopBlend > 0) {
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(curPx, nodeY + nodeH / 2, 9, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+          ctx.beginPath();
+          ctx.arc(curPx, nodeY + nodeH / 2, 22, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Draw Each Big Node
+      nodes.forEach((node, i) => {
+        const nX = startX + i * spacing;
+        const isActive = t >= node.activeTime && loopBlend > 0;
+        const isCurrent = t >= node.activeTime && t < (nodes[i + 1]?.activeTime || 3.6) && loopBlend > 0;
+
+        ctx.save();
+        if (isCurrent) {
+          ctx.shadowColor = node.color;
+          ctx.shadowBlur = 50;
+        }
+
+        ctx.fillStyle = isCurrent ? '#101628' : '#0b0e17';
+        roundRect(ctx, nX, nodeY, nodeW, nodeH, 22);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = isCurrent ? node.color : (isActive ? 'rgba(255, 255, 255, 0.35)' : 'rgba(255, 255, 255, 0.1)');
+        ctx.lineWidth = isCurrent ? 4 : 2;
+        roundRect(ctx, nX, nodeY, nodeW, nodeH, 22);
+        ctx.stroke();
+
+        // Step Number Badge
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        roundRect(ctx, nX + 24, nodeY + 28, 72, 46, 10);
+        ctx.fill();
+        ctx.fillStyle = node.color;
+        ctx.font = '900 26px monospace';
+        ctx.fillText(node.num, nX + 42, nodeY + 61);
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '800 22px monospace';
+        ctx.fillText(node.tag, nX + 112, nodeY + 59);
+
+        // Status Dot on top right
+        ctx.fillStyle = isCurrent ? node.color : (isActive ? '#34d399' : '#334155');
+        ctx.beginPath();
+        ctx.arc(nX + nodeW - 36, nodeY + 50, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Huge Node Title
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText(node.title, nX + 24, nodeY + 180);
+
+        // Subtitle
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '700 26px -apple-system, sans-serif';
+        ctx.fillText(node.sub, nX + 24, nodeY + 235);
+
+        // Middle Divider
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(nX + 24, nodeY + 285);
+        ctx.lineTo(nX + nodeW - 24, nodeY + 285);
+        ctx.stroke();
+
+        // Bottom State Tag
+        ctx.fillStyle = isCurrent ? node.color : '#64748b';
+        ctx.font = '800 22px monospace';
+        ctx.fillText(isCurrent ? '⚡ ACTIVE INFERENCE' : (isActive ? '✓ PROCESSED' : 'STANDBY'), nX + 24, nodeY + 360);
+
+        ctx.restore();
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // ANIMATION 4: QA MINI LOOP (1400x800, 3.6s)
+    // Full-Bleed, Bold Typography for Product Preview
+    // ════════════════════════════════════════════════════════════════
+    function drawQaMiniFrame(p) {
+      const W = canvas.width;
+      const H = canvas.height;
+      const t = p * 3.6;
+
+      const resetP = t >= 3.3 ? (t - 3.3) / 0.3 : 0;
+      const loopBlend = 1 - easeOutQuad(resetP);
+
+      ctx.fillStyle = '#07090e';
+      ctx.fillRect(0, 0, W, H);
+
+      // Backlight
+      const mGrad = ctx.createRadialGradient(W * 0.5, H * 0.5, 40, W * 0.5, H * 0.5, 600);
+      mGrad.addColorStop(0, 'rgba(99, 102, 241, 0.28)');
+      mGrad.addColorStop(0.6, 'rgba(56, 189, 248, 0.09)');
+      mGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = mGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Grid
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let x = 40; x < W; x += 40) {
+        for (let y = 40; y < H; y += 40) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      const stages = [
+        { label: '01 QUESTION', text: 'When was the first Apollo moon landing?', color: '#818cf8', y: 45, activeT: 0.0 },
+        { label: '02 AI BERT PROCESSING', text: 'Bidirectional Self-Attention Evaluation', color: '#38bdf8', y: 230, activeT: 0.9 },
+        { label: '03 EXTRACTED ANSWER', text: '"July 20, 1969"', color: '#34d399', y: 415, activeT: 1.8 },
+        { label: '04 EVIDENCE VERIFIED', text: 'Exact Source Span Grounded · Zero Hallucinations', color: '#c084fc', y: 600, activeT: 2.7 },
+      ];
+
+      const cardW = 1280;
+      const cardH = 155;
+      const cardX = (W - cardW) / 2;
+
+      // Connecting Vertical Bus Line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(W / 2, 110);
+      ctx.lineTo(W / 2, 680);
+      ctx.stroke();
+
+      // Flowing downward particles
+      const partProg = (t / 3.6);
+      for (let i = 0; i < 6; i++) {
+        const pPhase = (partProg + i * 0.18) % 1;
+        const py = 110 + pPhase * 570;
+        if (loopBlend > 0) {
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(W / 2, py, 9, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+          ctx.beginPath();
+          ctx.arc(W / 2, py, 22, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Draw Stages
+      stages.forEach((stg, i) => {
+        const isCurrent = t >= stg.activeT && t < (stages[i + 1]?.activeT || 3.6) && loopBlend > 0;
+        const isPassed = t >= stg.activeT && loopBlend > 0;
+
+        ctx.save();
+        if (isCurrent) {
+          ctx.shadowColor = stg.color;
+          ctx.shadowBlur = 45;
+        }
+
+        ctx.fillStyle = isCurrent ? '#0e1526' : '#0b0e17';
+        roundRect(ctx, cardX, stg.y, cardW, cardH, 22);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = isCurrent ? stg.color : (isPassed ? 'rgba(255, 255, 255, 0.32)' : 'rgba(255, 255, 255, 0.1)');
+        ctx.lineWidth = isCurrent ? 3.5 : 2;
+        roundRect(ctx, cardX, stg.y, cardW, cardH, 22);
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = stg.color;
+        ctx.font = '900 28px monospace';
+        ctx.fillText(stg.label, cardX + 44, stg.y + 50);
+
+        // Huge Crisp Text
+        ctx.fillStyle = (i === 2) ? '#34d399' : '#ffffff';
+        ctx.font = '900 48px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText(stg.text, cardX + 44, stg.y + 112);
+
+        // Status indicator circle on right
+        ctx.fillStyle = isCurrent ? stg.color : (isPassed ? '#34d399' : '#334155');
+        ctx.beginPath();
+        ctx.arc(cardX + cardW - 52, stg.y + cardH / 2, 12, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // MASTER BATCH GENERATION WORKFLOW
+    // ════════════════════════════════════════════════════════════════
+    async function startBatchGeneration() {
+      // 1. SQuAD 2.0 Safeguard Loop (Second Pic)
+      statusEl.innerText = 'Rendering 1/4: SQuAD 2.0 Safeguard Loop (1600x1000)...';
+      log('Starting SQuAD 2.0 Safeguard Loop (1600x1000, 60fps, 16 Mbps)...');
+      canvas.width = 1600;
+      canvas.height = 1000;
+
+      await new Promise(resolve => {
+        recordCanvas(3.6, 60, drawSafeguardFrame, async (blob) => {
+          await uploadVideo(blob, 'squad-safeguard.webm');
+          resolve();
+        });
+      });
+
+      // 2. Evidence Extraction Highlight Loop
+      statusEl.innerText = 'Rendering 2/4: Evidence Extraction Highlight (1600x1000)...';
+      log('Starting Evidence Extraction Highlight (1600x1000, 60fps, 16 Mbps)...');
+      canvas.width = 1600;
+      canvas.height = 1000;
+
+      await new Promise(resolve => {
+        recordCanvas(3.6, 60, drawEvidenceFrame, async (blob) => {
+          await uploadVideo(blob, 'evidence-extraction.webm');
+          resolve();
+        });
+      });
+
+      // 3. BERT Pipeline Architecture Loop
+      statusEl.innerText = 'Rendering 3/4: BERT Pipeline Architecture (1800x850)...';
+      log('Starting BERT Pipeline Architecture (1800x850, 60fps, 16 Mbps)...');
+      canvas.width = 1800;
+      canvas.height = 850;
+
+      await new Promise(resolve => {
+        recordCanvas(3.6, 60, drawPipelineFrame, async (blob) => {
+          await uploadVideo(blob, 'bert-pipeline.webm');
+          resolve();
+        });
+      });
+
+      // 4. QA Mini Loop
+      statusEl.innerText = 'Rendering 4/4: QA Mini Loop (1400x800)...';
+      log('Starting QA Mini Loop (1400x800, 60fps, 16 Mbps)...');
+      canvas.width = 1400;
+      canvas.height = 800;
+
+      await new Promise(resolve => {
+        recordCanvas(3.6, 60, drawQaMiniFrame, async (blob) => {
+          await uploadVideo(blob, 'qa-mini-loop.webm');
+          resolve();
+        });
+      });
+
+      statusEl.innerText = '✓ All 4 Ultra-HD Animations Rendered & Uploaded Successfully!';
+      log('🎉 Completed rendering and saving all 4 animations with huge bold clear typography!');
+    }
+
+    // Auto-start generation after 500ms
+    setTimeout(startBatchGeneration, 500);
+  </script>
+</body>
+</html>

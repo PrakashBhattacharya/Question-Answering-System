@@ -1,0 +1,1041 @@
+/* ================================================================
+   DASHBOARD SIDEBAR — Fully theme-aware
+   ================================================================ */
+
+.sidebar {
+  width: 240px;
+  background: var(--t-sidebar-bg);
+  border-right: 1px solid var(--t-sidebar-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 60;
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.28s ease, border-color 0.28s ease;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+.sidebarCollapsed { width: 68px; }
+
+.sidebarAmbientGlow {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 220px;
+  background: radial-gradient(ellipse 100% 70% at 50% -20%, var(--t-sidebar-ambient) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Brand header */
+.brandHeader {
+  position: relative;
+  z-index: 1;
+  height: 56px;
+  padding: 0 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--t-sidebar-header-border);
+  flex-shrink: 0;
+}
+
+.brandLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+.logoMark {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  background: var(--t-nav-logo-bg);
+  border: 1px solid var(--t-nav-logo-border);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 0 var(--t-border-1) inset, 0 0 18px var(--t-nav-logo-glow);
+}
+
+.logoPulseHalo {
+  position: absolute;
+  inset: -2px;
+  border-radius: 11px;
+  border: 1px solid var(--t-accent-border);
+  pointer-events: none;
+}
+
+.brandTextWrap {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.brandName {
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--t-text-1);
+  line-height: 1.2;
+}
+
+.brandTag {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--t-text-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.brandDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 6px var(--color-success);
+}
+
+.collapseToggle {
+  background: var(--t-surface-hover);
+  border: 1px solid var(--t-border-1);
+  color: var(--t-text-4);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.collapseToggle:hover {
+  color: var(--t-text-1);
+  background: var(--t-surface-active);
+  border-color: var(--t-border-2);
+}
+
+/* New Query Button */
+.newQueryWrap {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 0.95rem 0.65rem;
+  flex-shrink: 0;
+}
+
+.newQueryBtn {
+  position: relative;
+  width: 100%;
+  padding: 0.72rem 0.95rem;
+  background: var(--t-new-query-bg);
+  border: 1px solid var(--t-border-2);
+  border-radius: var(--t-new-query-radius);
+  cursor: pointer;
+  box-shadow: var(--t-new-query-shadow);
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.newQueryBtn:hover {
+  background: var(--t-new-query-hover);
+  transform: translateY(-1px);
+}
+
+/* Pixelcraft press effect */
+[data-theme="pixelcraft"] .newQueryBtn:active {
+  transform: translate(2px, 2px);
+}
+
+.newQueryGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.newQueryContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.plusIcon { flex-shrink: 0; color: var(--t-new-query-color); }
+
+.newQueryLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--t-new-query-color);
+  font-family: inherit;
+  flex: 1;
+  text-align: left;
+  margin-left: 0.5rem;
+}
+
+.newQueryKey {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--t-border-2);
+  color: var(--t-new-query-color);
+  padding: 0.12rem 0.38rem;
+  border-radius: 4px;
+}
+
+/* Nav sections */
+.navSection {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--t-scroll-thumb) var(--t-scroll-track);
+}
+
+.navGroup { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.groupHeader {
+  font-size: 0.64rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--t-text-4);
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.65rem 0.2rem;
+  text-transform: uppercase;
+}
+
+.navList { display: flex; flex-direction: column; gap: 0.18rem; }
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.68rem 0.85rem;
+  border-radius: var(--t-card-radius-override);
+  color: var(--t-sidebar-item-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+}
+
+.navItem:hover {
+  color: var(--t-text-1);
+  background: var(--t-sidebar-item-hover);
+  transform: translateX(2.5px);
+}
+
+.navItemActive {
+  color: var(--t-sidebar-item-active-color) !important;
+  background: var(--t-sidebar-item-active-bg) !important;
+  border-color: var(--t-sidebar-item-active-border) !important;
+  font-weight: 600;
+  box-shadow: var(--t-sidebar-item-active-shadow);
+}
+
+.activeGlowLine {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.5px;
+  height: 18px;
+  border-radius: 0 4px 4px 0;
+  background: var(--t-sidebar-item-active-glow);
+  box-shadow: 0 0 10px var(--t-sidebar-item-active-glow);
+}
+
+/* Pixelcraft: block active line */
+[data-theme="pixelcraft"] .activeGlowLine {
+  border-radius: 0;
+  width: 4px;
+}
+
+.navItemActive .navIcon { color: var(--t-sidebar-item-active-glow); }
+.navIcon { flex-shrink: 0; color: inherit; transition: all 0.15s ease; }
+.navLabel { flex: 1; text-align: left; }
+
+/* Badges */
+.navBadge {
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 0.08rem 0.38rem;
+  border-radius: var(--t-card-radius-override);
+}
+
+.navBadgeRest {
+  color: var(--accent-cyan);
+  background: var(--accent-cyan-subtle);
+  border: 1px solid rgba(34,211,238,0.25);
+}
+
+.navBadgeNew {
+  color: #f472b6;
+  background: rgba(236,72,153,0.1);
+  border: 1px solid rgba(236,72,153,0.28);
+  animation: pulse-new 2.5s ease-in-out infinite;
+}
+
+.navBadgeSecure {
+  color: #34d399;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+}
+
+[data-theme="imperium"] .navBadge,
+[data-theme="imperium"] .navBadgeRest,
+[data-theme="imperium"] .navBadgeNew,
+[data-theme="imperium"] .navBadgeSecure {
+  color: #d4af37 !important;
+  background: rgba(201, 162, 39, 0.12) !important;
+  border: 1px solid rgba(201, 162, 39, 0.35) !important;
+  animation: none !important;
+}
+
+[data-theme="void"] .navBadge,
+[data-theme="void"] .navBadgeRest,
+[data-theme="void"] .navBadgeNew,
+[data-theme="void"] .navBadgeSecure {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  animation: none !important;
+}
+
+@keyframes pulse-new {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Bottom section */
+.bottomSection {
+  position: relative;
+  z-index: 1;
+  padding: 0.85rem 0.75rem;
+  border-top: 1px solid var(--t-sidebar-bottom-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  background: var(--t-sidebar-bottom-bg);
+}
+
+.bottomItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--t-card-radius-override);
+  color: var(--t-sidebar-item-color);
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.bottomItem:hover {
+  color: var(--t-text-1);
+  background: var(--t-sidebar-item-hover);
+}
+
+.logoutItem:hover {
+  color: var(--error-400);
+  background: rgba(239,68,68,0.08);
+}
+
+.bottomIcon { flex-shrink: 0; color: inherit; }
+
+/* Profile row */
+.profileRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--t-card-radius-override);
+  background: var(--t-surface-hover);
+  border: 1px solid var(--t-border-1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profileRow:hover, .profileRowActive {
+  background: var(--t-surface-active);
+  border-color: var(--t-border-2);
+  transform: translateY(-1px);
+}
+
+/* Pixelcraft */
+[data-theme="pixelcraft"] .profileRow:hover,
+[data-theme="pixelcraft"] .profileRowActive {
+  transform: translate(-1px, -1px);
+}
+
+.avatarWrap { position: relative; flex-shrink: 0; }
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--t-avatar-bg);
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--t-border-2);
+  box-shadow: var(--t-avatar-shadow);
+}
+
+.avatarOnlineDot {
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  border: 1.5px solid var(--t-shell-bg);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  overflow: hidden;
+  flex: 1;
+}
+
+.userNameRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.userDisplayName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--t-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proBadge {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--t-eyebrow-color);
+  background: var(--t-eyebrow-bg);
+  border: 1px solid var(--t-eyebrow-border);
+  padding: 0.05rem 0.32rem;
+  border-radius: var(--t-eyebrow-radius);
+}
+
+.userEmailText {
+  font-size: 0.72rem;
+  color: var(--t-text-4);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile overlay */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 55;
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebarMobileOpen { transform: translateX(0); }
+}
+
+/* ── 06: IMPERIUM Royal Library Index ──────────────────────── */
+[data-theme="imperium"] .sidebar {
+  background: #000000 !important;
+  border-right: 1px solid rgba(168, 132, 42, 0.2) !important;
+  box-shadow: none !important;
+}
+
+[data-theme="imperium"] .sidebarAmbientGlow {
+  display: none !important;
+}
+
+[data-theme="imperium"] .brandHeader {
+  border-bottom: 1px solid rgba(168, 132, 42, 0.18) !important;
+}
+
+[data-theme="imperium"] .sidebarBottom {
+  background: #000000 !important;
+  border-top: 1px solid rgba(168, 132, 42, 0.18) !important;
+}
+
+[data-theme="imperium"] .brandName {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #fff4c7 0%, #f5e7b2 40%, #d4af37 80%, #c9a227 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="imperium"] .logoMark {
+  background: #080808 !important;
+  border-color: rgba(201, 162, 39, 0.35);
+  box-shadow: 0 0 12px rgba(201, 162, 39, 0.15);
+}
+
+[data-theme="imperium"] .logoMark svg circle,
+[data-theme="imperium"] .logoMark svg path {
+  stroke: #d4af37 !important;
+}
+
+[data-theme="imperium"] .logoMark svg circle[fill] {
+  fill: #d4af37 !important;
+}
+
+[data-theme="imperium"] .brandDot {
+  background: #d4af37 !important;
+  box-shadow: 0 0 6px #d4af37 !important;
+}
+
+[data-theme="imperium"] .groupHeader {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: #a8842a;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+}
+
+[data-theme="imperium"] .navItem {
+  color: #c9b98a;
+  border-radius: 8px;
+}
+
+[data-theme="imperium"] .navIcon {
+  color: #a8842a;
+}
+
+[data-theme="imperium"] .navItem:hover {
+  background: rgba(201, 162, 39, 0.08);
+  color: #fff4c7;
+}
+
+[data-theme="imperium"] .navItem:hover .navIcon {
+  color: #d4af37;
+}
+
+[data-theme="imperium"] .navItemActive {
+  background: rgba(201, 162, 39, 0.18) !important;
+  border: 1px solid rgba(212, 175, 55, 0.45) !important;
+  color: #fff4c7 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 3px 0 0 #d4af37;
+}
+
+[data-theme="imperium"] .navItemActive .navIcon {
+  color: #d4af37 !important;
+}
+
+[data-theme="imperium"] .newQueryBtn {
+  background: linear-gradient(135deg, #c9a227 0%, #e5c766 50%, #d4af37 100%) !important;
+  border-color: #e5c766;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(201, 162, 39, 0.25);
+  border-radius: 10px;
+}
+
+[data-theme="imperium"] .newQueryLabel,
+[data-theme="imperium"] .plusIcon,
+[data-theme="imperium"] .newQueryKey {
+  color: #0b0906 !important;
+  font-weight: 700;
+}
+
+[data-theme="imperium"] .profileRow {
+  background: #080808 !important;
+  border-color: rgba(168, 132, 42, 0.25);
+  border-radius: 10px;
+}
+
+[data-theme="imperium"] .userAvatar {
+  background: linear-gradient(135deg, #0c0c0c 0%, #a8842a 100%);
+  border-color: rgba(201, 162, 39, 0.4);
+}
+
+/* ── 02: VOID Monochromatic High-Contrast ───────────────────── */
+[data-theme="void"] .sidebar {
+  background: #000000 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+[data-theme="void"] .brandHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="void"] .brandName {
+  color: #ffffff !important;
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+[data-theme="void"] .brandTag {
+  color: #777777 !important;
+}
+
+[data-theme="void"] .brandDot {
+  background: #ffffff !important;
+  box-shadow: 0 0 6px #ffffff !important;
+}
+
+[data-theme="void"] .logoMark {
+  background: #141414 !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+[data-theme="void"] .logoMark svg circle,
+[data-theme="void"] .logoMark svg path {
+  stroke: #ffffff !important;
+}
+
+[data-theme="void"] .logoMark svg circle[fill] {
+  fill: #ffffff !important;
+}
+
+[data-theme="void"] .groupHeader {
+  color: #666666 !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+[data-theme="void"] .navItem {
+  color: #888888 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="void"] .navIcon {
+  color: #888888 !important;
+}
+
+[data-theme="void"] .navItem:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .navItem:hover .navIcon {
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .navItemActive {
+  background: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="void"] .navItemActive .navIcon {
+  color: #000000 !important;
+}
+
+[data-theme="void"] .activeGlowLine {
+  display: none !important;
+}
+
+[data-theme="void"] .newQueryBtn {
+  background: #141414 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="void"] .newQueryBtn:hover {
+  background: #202020 !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="void"] .newQueryLabel,
+[data-theme="void"] .plusIcon,
+[data-theme="void"] .newQueryKey {
+  color: #ffffff !important;
+}
+
+[data-theme="void"] .profileRow {
+  background: #0d0d0d !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="void"] .userAvatar {
+  background: #222222 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+/* ── 03: CLOUD High-Clarity Enterprise Light Sidebar ────────── */
+[data-theme="cloud"] .sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="cloud"] .brandHeader {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="cloud"] .brandName {
+  color: #0f172a !important;
+  background: none !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+[data-theme="cloud"] .brandTag {
+  color: #64748b !important;
+}
+
+[data-theme="cloud"] .brandDot {
+  background: #2563eb !important;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.6) !important;
+}
+
+[data-theme="cloud"] .logoMark {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+[data-theme="cloud"] .logoMark svg circle,
+[data-theme="cloud"] .logoMark svg path {
+  stroke: #2563eb !important;
+}
+
+[data-theme="cloud"] .groupHeader {
+  color: #64748b !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="cloud"] .navItem {
+  color: #475569 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="cloud"] .navIcon {
+  color: #64748b !important;
+}
+
+[data-theme="cloud"] .navItem:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="cloud"] .navItem:hover .navIcon {
+  color: #2563eb !important;
+}
+
+[data-theme="cloud"] .navItemActive {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #1d4ed8 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08) !important;
+}
+
+[data-theme="cloud"] .navItemActive .navIcon {
+  color: #2563eb !important;
+}
+
+[data-theme="cloud"] .newQueryBtn {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: 1px solid #1d4ed8 !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="cloud"] .newQueryLabel,
+[data-theme="cloud"] .plusIcon,
+[data-theme="cloud"] .newQueryKey {
+  color: #ffffff !important;
+}
+
+[data-theme="cloud"] .profileRow {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="cloud"] .userAvatar {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+[data-theme="cloud"] .sidebarBottom {
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+/* ── 04: EMBER Warm Editorial Cream & Amber Sidebar ─────────── */
+[data-theme="ember"] .sidebar {
+  background: #fff8f0 !important;
+  border-right: 1px solid rgba(234, 88, 12, 0.16) !important;
+  box-shadow: 1px 0 4px rgba(180, 83, 9, 0.05) !important;
+}
+
+[data-theme="ember"] .brandHeader {
+  border-bottom: 1px solid rgba(234, 88, 12, 0.14);
+}
+
+[data-theme="ember"] .brandName {
+  font-family: 'Lora', Georgia, serif;
+  color: #1c0a00 !important;
+  background: none !important;
+  -webkit-text-fill-color: #1c0a00 !important;
+}
+
+[data-theme="ember"] .brandTag {
+  color: #78350f !important;
+}
+
+[data-theme="ember"] .brandDot {
+  background: #ea580c !important;
+  box-shadow: 0 0 6px rgba(234, 88, 12, 0.6) !important;
+}
+
+[data-theme="ember"] .logoMark {
+  background: #fff5ec !important;
+  border-color: rgba(234, 88, 12, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(234, 88, 12, 0.12) !important;
+}
+
+[data-theme="ember"] .logoMark svg circle,
+[data-theme="ember"] .logoMark svg path {
+  stroke: #ea580c !important;
+}
+
+[data-theme="ember"] .groupHeader {
+  color: #9a3412 !important;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="ember"] .navItem {
+  color: #78350f !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ember"] .navIcon {
+  color: #9a3412 !important;
+}
+
+[data-theme="ember"] .navItem:hover {
+  background: #fff5ec !important;
+  color: #1c0a00 !important;
+}
+
+[data-theme="ember"] .navItem:hover .navIcon {
+  color: #ea580c !important;
+}
+
+[data-theme="ember"] .navItemActive {
+  background: #ffedd5 !important;
+  border: 1px solid rgba(234, 88, 12, 0.35) !important;
+  color: #c2410c !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.12) !important;
+}
+
+[data-theme="ember"] .navItemActive .navIcon {
+  color: #ea580c !important;
+}
+
+[data-theme="ember"] .newQueryBtn {
+  background: linear-gradient(180deg, #f97316 0%, #ea580c 60%, #c2410c 100%) !important;
+  border: 1px solid rgba(194, 65, 12, 0.35) !important;
+  box-shadow: 0 4px 18px rgba(234, 88, 12, 0.3) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ember"] .newQueryLabel,
+[data-theme="ember"] .plusIcon,
+[data-theme="ember"] .newQueryKey {
+  color: #ffffff !important;
+}
+
+[data-theme="ember"] .profileRow {
+  background: #fffaf5 !important;
+  border: 1px solid rgba(234, 88, 12, 0.16) !important;
+  border-radius: 8px !important;
+}
+
+[data-theme="ember"] .userAvatar {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+  border-color: rgba(234, 88, 12, 0.3) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="ember"] .sidebarBottom {
+  background: #fff8f0 !important;
+  border-top: 1px solid rgba(234, 88, 12, 0.16) !important;
+}
+
+/* ── 05: PIXELCRAFT Voxel Forest Block Sidebar ─────────────── */
+[data-theme="pixelcraft"] .sidebar {
+  background: #172017 !important;
+  border-right: 2px solid rgba(76, 175, 80, 0.35) !important;
+  box-shadow: 2px 0 0 #0d140e !important;
+}
+
+[data-theme="pixelcraft"] .brandHeader {
+  border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="pixelcraft"] .brandName {
+  font-family: 'JetBrains Mono', monospace;
+  color: #e8f5e9 !important;
+  background: none !important;
+  -webkit-text-fill-color: #e8f5e9 !important;
+  letter-spacing: 0.04em;
+}
+
+[data-theme="pixelcraft"] .brandTag {
+  color: #81c784 !important;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+[data-theme="pixelcraft"] .brandDot {
+  background: #4caf50 !important;
+  box-shadow: 0 0 6px #4caf50 !important;
+  border-radius: 1px !important;
+}
+
+[data-theme="pixelcraft"] .logoMark {
+  background: #1f2d1f !important;
+  border: 2px solid #4caf50 !important;
+  border-radius: 3px !important;
+  box-shadow: 2px 2px 0 #0d140e !important;
+}
+
+[data-theme="pixelcraft"] .logoMark svg circle,
+[data-theme="pixelcraft"] .logoMark svg path {
+  stroke: #81c784 !important;
+}
+
+[data-theme="pixelcraft"] .groupHeader {
+  color: #81c784 !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.08em;
+}
+
+[data-theme="pixelcraft"] .navItem {
+  color: #c8e6c9 !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+}
+
+[data-theme="pixelcraft"] .navIcon {
+  color: #81c784 !important;
+}
+
+[data-theme="pixelcraft"] .navItem:hover {
+  background: #1f2d1f !important;
+  color: #e8f5e9 !important;
+  box-shadow: 2px 2px 0 #0d140e;
+}
+
+[data-theme="pixelcraft"] .navItemActive {
+  background: #253225 !important;
+  border: 1px solid #4caf50 !important;
+  color: #e8f5e9 !important;
+  font-weight: 700 !important;
+  border-radius: 2px !important;
+  box-shadow: 2px 2px 0 #0d140e !important;
+}
+
+[data-theme="pixelcraft"] .navItemActive .navIcon {
+  color: #81c784 !important;
+}
+
+[data-theme="pixelcraft"] .newQueryBtn {
+  background: linear-gradient(180deg, #66bb6a 0%, #4caf50 60%, #2e7d32 100%) !important;
+  border: 2px solid #81c784 !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 #0d140e !important;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+[data-theme="pixelcraft"] .newQueryBtn:hover {
+  background: linear-gradient(180deg, #81c784 0%, #66bb6a 60%, #4caf50 100%) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #0d140e !important;
+}
+
+[data-theme="pixelcraft"] .newQueryBtn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #0d140e !important;
+}
+
+[data-theme="pixelcraft"] .newQueryLabel,
+[data-theme="pixelcraft"] .plusIcon,
+[data-theme="pixelcraft"] .newQueryKey {
+  color: #e8f5e9 !important;
+}
+
+[data-theme="pixelcraft"] .profileRow {
+  background: #1f2d1f !important;
+  border: 1.5px solid rgba(76, 175, 80, 0.3) !important;
+  border-radius: 2px !important;
+  box-shadow: 2px 2px 0 #0d140e;
+}
+
+[data-theme="pixelcraft"] .userAvatar {
+  background: #253225 !important;
+  border: 1px solid #4caf50 !important;
+  border-radius: 2px !important;
+  color: #81c784 !important;
+}
+
+[data-theme="pixelcraft"] .sidebarBottom {
+  background: #172017 !important;
+  border-top: 2px solid rgba(76, 175, 80, 0.3) !important;
+}
+

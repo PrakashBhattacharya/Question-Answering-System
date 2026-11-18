@@ -1,0 +1,219 @@
+/* ================================================================
+   DASHBOARD LAYOUT — Fully theme-aware
+   ================================================================ */
+
+.appShell {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--t-shell-bg);
+  color: var(--t-text-1);
+  display: flex;
+  overflow-x: hidden;
+  transition: background-color 0.28s ease;
+}
+
+/* ── Ambient Atmosphere ─────────────────────────────────────── */
+.beam {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 420px;
+  background: linear-gradient(
+    to bottom,
+    var(--t-topbar-beam) 0%,
+    var(--t-accent-glow) 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: beam-pulse 5s ease-in-out infinite;
+}
+
+.halo {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 320px;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    var(--t-topbar-halo) 0%,
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: halo-breathe 6s ease-in-out infinite;
+}
+
+.gridOverlay {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--t-border-0) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--t-border-0) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 30%, #000 35%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 30%, #000 35%, transparent 85%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes beam-pulse {
+  0%, 100% { opacity: 0.65; }
+  50%       { opacity: 0.95; }
+}
+
+@keyframes halo-breathe {
+  0%, 100% { opacity: 0.65; }
+  50%       { opacity: 0.9; }
+}
+
+/* ── Main content wrapper ────────────────────────────────────── */
+.mainContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+  margin-left: 240px;
+  transition: margin-left 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mainContainer.sidebarCollapsed {
+  margin-left: 68px;
+}
+
+.viewport {
+  flex: 1;
+  overflow-y: auto;
+  min-height: calc(100vh - 56px);
+}
+
+.viewTransition {
+  animation: viewFadeIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContainer { margin-left: 0 !important; }
+}
+
+/* ── 06: IMPERIUM THEME OVERRIDES ── */
+[data-theme="imperium"] .appShell {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="imperium"] .beam,
+[data-theme="imperium"] .halo {
+  display: none !important;
+}
+
+[data-theme="imperium"] .gridOverlay {
+  display: none !important;
+}
+
+/* ── 02: VOID THEME OVERRIDES ── */
+[data-theme="void"] .appShell {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+[data-theme="void"] .beam,
+[data-theme="void"] .halo {
+  display: none !important;
+}
+
+/* ── 03: CLOUD THEME OVERRIDES ── */
+[data-theme="cloud"] .appShell {
+  background-color: #f4f6fa !important;
+  background: #f4f6fa !important;
+}
+
+[data-theme="cloud"] .beam {
+  display: none !important;
+}
+
+[data-theme="cloud"] .halo {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(37, 99, 235, 0.05) 0%,
+    transparent 80%
+  ) !important;
+}
+
+[data-theme="cloud"] .gridOverlay {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+}
+
+/* ── 04: EMBER THEME OVERRIDES ── */
+[data-theme="ember"] .appShell {
+  background-color: #fff8f0 !important;
+  background: #fff8f0 !important;
+}
+
+[data-theme="ember"] .beam {
+  background: linear-gradient(
+    to bottom,
+    rgba(234, 88, 12, 0.35) 0%,
+    rgba(217, 119, 6, 0.15) 30%,
+    transparent 100%
+  ) !important;
+}
+
+[data-theme="ember"] .halo {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(234, 88, 12, 0.08) 0%,
+    transparent 80%
+  ) !important;
+}
+
+[data-theme="ember"] .gridOverlay {
+  background-image:
+    linear-gradient(to right, rgba(234, 88, 12, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(234, 88, 12, 0.05) 1px, transparent 1px) !important;
+}
+
+/* ── 05: PIXELCRAFT THEME OVERRIDES ── */
+[data-theme="pixelcraft"] .appShell {
+  background-color: #142016 !important;
+  background: #142016 !important;
+}
+
+[data-theme="pixelcraft"] .beam,
+[data-theme="pixelcraft"] .halo {
+  display: none !important;
+}
+
+[data-theme="pixelcraft"] .gridOverlay {
+  background-image:
+    linear-gradient(to right, rgba(76, 175, 80, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(76, 175, 80, 0.08) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+

@@ -1,0 +1,199 @@
+/* ================================================================
+   THEME SELECTOR — Theme-aware
+   ================================================================ */
+.wrapper { position:relative; z-index:1000; }
+
+/* Trigger Button */
+.trigger {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.38rem 0.75rem; border-radius:var(--t-btn-primary-radius);
+  border:1px solid var(--t-border-1); background:var(--t-card-bg);
+  color:var(--t-text-2); font-family:var(--font-sans);
+  font-size:0.78rem; font-weight:500; letter-spacing:-0.01em;
+  cursor:pointer; transition:all 0.18s ease; white-space:nowrap;
+}
+.trigger:hover {
+  border-color:var(--t-border-2); color:var(--t-text-1); background:var(--t-card-bg-alt);
+}
+.triggerOpen {
+  border-color:var(--t-accent-border); color:var(--t-text-1);
+  background:var(--t-card-bg-alt);
+  box-shadow:0 0 0 2px var(--t-accent-subtle);
+}
+.triggerLabel { font-size:0.78rem; font-weight:500; }
+
+/* Panel */
+.panel {
+  position:absolute; top:calc(100% + 8px); right:0; width:320px;
+  background:var(--t-selector-bg);
+  border:1px solid var(--t-selector-border);
+  border-radius:var(--t-card-radius-override);
+  box-shadow:var(--t-selector-shadow);
+  overflow:hidden;
+  animation:panelIn 0.18s cubic-bezier(0.16,1,0.3,1) both;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+}
+@keyframes panelIn {
+  from { opacity:0; transform:translateY(-6px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Panel Header */
+.panelHeader {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.9rem 1rem 0.6rem;
+  border-bottom:1px solid var(--t-border-0);
+}
+.panelTitle {
+  font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--t-text-4); font-family:var(--font-mono);
+}
+.closeBtn {
+  display:flex; align-items:center; justify-content:center;
+  width:22px; height:22px; border-radius:var(--radius-sm);
+  border:none; background:transparent; color:var(--t-text-4);
+  cursor:pointer; transition:all 0.15s ease; font-family:inherit;
+}
+.closeBtn:hover { background:var(--t-surface-hover); color:var(--t-text-2); }
+
+/* Theme List */
+.themeList { padding:0.5rem; display:flex; flex-direction:column; gap:2px; }
+
+/* Theme Row */
+.themeRow {
+  display:flex; align-items:center; justify-content:space-between; gap:0.75rem;
+  padding:0.6rem 0.75rem; border-radius:var(--t-card-radius-override);
+  border:1px solid transparent; background:transparent;
+  cursor:pointer; text-align:left; transition:all 0.15s ease;
+  font-family:inherit; width:100%;
+}
+.themeRow:hover {
+  background:var(--t-selector-row-hover); border-color:var(--t-border-0);
+}
+.themeRowActive {
+  background:var(--t-selector-row-active) !important;
+  border-color:var(--t-selector-row-active-border) !important;
+}
+.themeRowLeft { display:flex; align-items:center; gap:0.65rem; flex:1; min-width:0; }
+
+/* Radio indicator */
+.radioOuter {
+  width:16px; height:16px; border-radius:50%;
+  border:1.5px solid var(--t-border-2);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:border-color 0.15s ease;
+}
+.themeRowActive .radioOuter { border-color:var(--t-accent); }
+.radioDot { width:8px; height:8px; border-radius:50%; background:var(--t-accent); }
+
+/* Pixelcraft: square radio */
+[data-theme="pixelcraft"] .radioOuter { border-radius:2px; }
+[data-theme="pixelcraft"] .radioDot   { border-radius:1px; }
+[data-theme="pixelcraft"] .themeRow   { border-radius:2px; }
+[data-theme="pixelcraft"] .panel      { border-radius:4px; box-shadow:4px 4px 0 rgba(0,0,0,0.5), 0 0 0 1px var(--t-selector-border) inset; }
+
+/* Preview swatch */
+.swatch {
+  width:36px; height:28px; border-radius:var(--radius-sm);
+  overflow:hidden; border:1px solid var(--t-border-1);
+  display:flex; flex-shrink:0; position:relative;
+}
+.swatchBg      { position:absolute; inset:0; }
+.swatchAccent  { position:absolute; right:0; bottom:0; width:14px; height:12px; border-radius:3px 0 0 0; opacity:0.9; }
+.swatchSecondary { position:absolute; right:14px; bottom:0; width:8px; height:6px; border-radius:3px 0 0 0; opacity:0.7; }
+
+[data-theme="pixelcraft"] .swatch { border-radius:2px; }
+
+/* Theme Info */
+.themeInfo { display:flex; flex-direction:column; gap:0.12rem; min-width:0; }
+.themeRowTop { display:flex; align-items:center; gap:0.45rem; }
+.themeNum    { font-size:0.62rem; font-weight:600; font-family:var(--font-mono); color:var(--t-text-4); letter-spacing:0.03em; flex-shrink:0; }
+.themeName   { font-size:0.85rem; font-weight:600; color:var(--t-text-1); letter-spacing:-0.01em; white-space:nowrap; }
+.themeSubtitle { font-size:0.72rem; color:var(--t-text-4); letter-spacing:-0.005em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Active badge */
+.activeCheck {
+  display:inline-flex; align-items:center; gap:0.25rem;
+  font-size:0.65rem; font-weight:600;
+  color:var(--t-eyebrow-color); background:var(--t-eyebrow-bg);
+  border:1px solid var(--t-eyebrow-border);
+  padding:0.18rem 0.45rem; border-radius:var(--t-eyebrow-radius);
+  white-space:nowrap; flex-shrink:0;
+}
+
+/* Imperium Royal Theme Selector */
+[data-theme="imperium"] .panel {
+  background: #080808 !important;
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 1px rgba(229, 199, 102, 0.3) inset;
+  border-radius: 12px;
+}
+
+[data-theme="imperium"] .panelTitle {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.14em;
+  color: #c9a227;
+}
+
+[data-theme="imperium"] .themeRowActive {
+  background: #141414 !important;
+  border-color: rgba(201, 162, 39, 0.6) !important;
+  box-shadow: 0 0 14px rgba(201, 162, 39, 0.2);
+}
+
+[data-theme="imperium"] .radioOuter {
+  border-color: rgba(168, 132, 42, 0.4);
+}
+
+[data-theme="imperium"] .themeRowActive .radioOuter {
+  border-color: #c9a227;
+  box-shadow: 0 0 8px rgba(201, 162, 39, 0.4);
+}
+
+[data-theme="imperium"] .radioDot {
+  background: #c9a227;
+}
+
+[data-theme="imperium"] .swatch {
+  border-color: rgba(168, 132, 42, 0.35);
+  border-radius: 6px;
+}
+
+/* ── 02: VOID Theme Selector (Fix visibility on white active row) ── */
+[data-theme="void"] .panel {
+  background: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.98), 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+[data-theme="void"] .themeRowActive {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+[data-theme="void"] .themeRowActive .themeName {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="void"] .themeRowActive .themeNum {
+  color: #4b5563 !important;
+}
+
+[data-theme="void"] .themeRowActive .themeSubtitle {
+  color: #374151 !important;
+}
+
+[data-theme="void"] .themeRowActive .radioOuter {
+  border-color: #000000 !important;
+}
+
+[data-theme="void"] .themeRowActive .radioDot {
+  background: #000000 !important;
+}
+
+[data-theme="void"] .themeRowActive .activeCheck {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}

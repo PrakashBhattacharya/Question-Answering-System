@@ -1,0 +1,27 @@
+# Python virtual environments
+backend/venv/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# React dependencies and builds
+frontend/node_modules/
+frontend/dist/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+backend/.env
+
+# Model checkpoints
+backend/models/
+*.safetensors
+*.pth
+*.pt
+
+# Testing
+.pytest_cache/

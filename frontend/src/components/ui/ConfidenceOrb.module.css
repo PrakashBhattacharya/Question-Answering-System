@@ -1,0 +1,226 @@
+.orbWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+.ambientAura {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--orb-glow, rgba(129, 140, 248, 0.25)) 0%, transparent 70%);
+  animation: pulseAura 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes pulseAura {
+  0%, 100% { transform: scale(0.92); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* Gyroscope Rings */
+.gyroRing1, .gyroRing2 {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px dashed var(--orb-ring, rgba(129, 140, 248, 0.35));
+  pointer-events: none;
+}
+
+.gyroRing1 {
+  animation: rotateGyro1 10s infinite linear;
+}
+
+.gyroRing2 {
+  inset: 10px;
+  border-style: dotted;
+  border-color: var(--orb-ring-subtle, rgba(56, 189, 248, 0.25));
+  animation: rotateGyro2 14s infinite linear reverse;
+}
+
+@keyframes rotateGyro1 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rotateGyro2 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* SVG Meter */
+.svgMeter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.meterTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 5;
+}
+
+.meterFill {
+  fill: none;
+  stroke: var(--orb-stroke, #818cf8);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 6px var(--orb-glow, rgba(129, 140, 248, 0.6)));
+}
+
+/* Core Orb */
+.coreOrb {
+  position: relative;
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+  background: var(--orb-core-bg, radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.15), rgba(15, 23, 42, 0.95) 80%));
+  border: 1px solid var(--orb-core-border, rgba(255, 255, 255, 0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    inset 0 0 16px var(--orb-inner-glow, rgba(129, 140, 248, 0.3)),
+    0 4px 18px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.innerPlasma {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, var(--orb-plasma, rgba(99, 102, 241, 0.35)) 0%, transparent 75%);
+  animation: plasmaShift 5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes plasmaShift {
+  0%, 100% { transform: scale(0.9) translate(0, 0); }
+  50% { transform: scale(1.1) translate(2px, -2px); }
+}
+
+.coreData {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.scoreNumber {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--orb-text, #f8fafc);
+  text-shadow: 0 0 10px var(--orb-glow, rgba(129, 140, 248, 0.5));
+}
+
+.scoreLabel {
+  font-family: var(--t-font-mono, monospace);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--orb-label, rgba(255, 255, 255, 0.5));
+}
+
+/* Orbiting Photons */
+.particleCluster {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: orbitCluster 8s infinite linear;
+}
+
+@keyframes orbitCluster {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.photon1, .photon2, .photon3 {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+
+.photon1 { top: 6px; left: 50%; }
+.photon2 { bottom: 12px; left: 16%; opacity: 0.7; }
+.photon3 { top: 60%; right: 4px; opacity: 0.5; }
+
+/* ── THEME STYLING PROFILES ─────────────────────────────────── */
+/* 01. Original: Violet & Electric Purple */
+.orbTheme_original, .orbTheme_linear {
+  --orb-stroke: #818cf8;
+  --orb-glow: rgba(129, 140, 248, 0.55);
+  --orb-ring: rgba(129, 140, 248, 0.4);
+  --orb-ring-subtle: rgba(56, 189, 248, 0.3);
+  --orb-plasma: rgba(99, 102, 241, 0.4);
+  --orb-text: #f8fafc;
+}
+
+/* 02. Void: Deep Monochrome Onyx & Silver */
+.orbTheme_void {
+  --orb-stroke: #e2e8f0;
+  --orb-glow: rgba(255, 255, 255, 0.35);
+  --orb-ring: rgba(255, 255, 255, 0.3);
+  --orb-ring-subtle: rgba(255, 255, 255, 0.15);
+  --orb-plasma: rgba(255, 255, 255, 0.2);
+  --orb-core-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.98) 80%);
+  --orb-text: #ffffff;
+}
+
+/* 03. Cloud: Ethereal White & Sky Blue */
+.orbTheme_cloud {
+  --orb-stroke: #38bdf8;
+  --orb-glow: rgba(56, 189, 248, 0.45);
+  --orb-ring: rgba(56, 189, 248, 0.35);
+  --orb-ring-subtle: rgba(14, 165, 233, 0.2);
+  --orb-plasma: rgba(56, 189, 248, 0.25);
+  --orb-text: #0f172a;
+  --orb-core-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(240, 249, 255, 0.85) 80%);
+  --orb-core-border: rgba(56, 189, 248, 0.25);
+  --orb-label: rgba(15, 23, 42, 0.6);
+}
+
+/* 04. Ember: Cream, Warm Charcoal & Molten Orange */
+.orbTheme_ember {
+  --orb-stroke: #f97316;
+  --orb-glow: rgba(249, 115, 22, 0.55);
+  --orb-ring: rgba(249, 115, 22, 0.4);
+  --orb-ring-subtle: rgba(251, 146, 60, 0.25);
+  --orb-plasma: rgba(234, 88, 12, 0.45);
+  --orb-text: #ffedd5;
+}
+
+/* 05. Pixelcraft: Terminal Green Voxel */
+.orbTheme_pixelcraft {
+  --orb-stroke: #22c55e;
+  --orb-glow: rgba(34, 197, 94, 0.6);
+  --orb-ring: rgba(34, 197, 94, 0.45);
+  --orb-ring-subtle: rgba(74, 222, 128, 0.25);
+  --orb-plasma: rgba(21, 128, 61, 0.45);
+  --orb-text: #4ade80;
+}
+
+/* 06. Imperium: Charcoal & Gilded Gold */
+.orbTheme_imperium {
+  --orb-stroke: #d4af37;
+  --orb-glow: rgba(212, 175, 55, 0.55);
+  --orb-ring: rgba(212, 175, 55, 0.4);
+  --orb-ring-subtle: rgba(245, 208, 97, 0.25);
+  --orb-plasma: rgba(180, 140, 25, 0.4);
+  --orb-text: #fef08a;
+}

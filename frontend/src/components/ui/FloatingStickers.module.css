@@ -1,0 +1,139 @@
+/* ================================================================
+   FLOATING STICKERS — Theme-aware
+   ================================================================ */
+.stickersOverlay {
+  position:absolute; inset:0; pointer-events:none; z-index:10; overflow:visible;
+}
+
+.sticker {
+  position:absolute; pointer-events:auto;
+  border-radius:9999px;
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  transition:transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease;
+  user-select:none; cursor:default;
+}
+.sticker:hover { transform:translateY(-2px) scale(1.04); }
+
+.stickerInner {
+  position:relative; z-index:2;
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.38rem 0.85rem; border-radius:9999px;
+  background:var(--t-card-bg);
+  border:1px solid var(--t-card-border);
+  box-shadow: 0 1px 0 var(--t-border-1) inset, var(--t-card-shadow);
+}
+
+/* Void: minimal glass badges */
+[data-theme="void"] .stickerInner {
+  border-radius: 4px;
+  background: rgba(8, 8, 12, 0.85);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+/* Cloud: professional status badges */
+[data-theme="cloud"] .stickerInner {
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+[data-theme="cloud"] .text {
+  color: #0f172a;
+}
+
+/* Ember: warm editorial labels */
+[data-theme="ember"] .stickerInner {
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.08);
+}
+[data-theme="ember"] .text {
+  color: #431407;
+}
+
+/* Pixelcraft: inventory/voxel badges */
+[data-theme="pixelcraft"] .stickerInner,
+[data-theme="pixelcraft"] .sticker {
+  border-radius: 0;
+  background: #142016;
+  border: 2px solid #3e6b3e;
+  box-shadow: 3px 3px 0 #000000;
+}
+[data-theme="pixelcraft"] .text {
+  font-family: monospace;
+  color: #a5d6a7;
+}
+
+.iconWrap { display:flex; align-items:center; justify-content:center; }
+
+.text {
+  font-family:var(--font-mono);
+  font-size:0.72rem; font-weight:700;
+  letter-spacing:0.05em; text-transform:uppercase;
+  color:var(--t-text-1); white-space:nowrap;
+}
+
+.glow {
+  position:absolute; inset:-2px; border-radius:9999px;
+  opacity:0.4; filter:blur(8px); pointer-events:none; z-index:1;
+  transition:opacity 0.3s ease;
+}
+.sticker:hover .glow { opacity:0.75; }
+
+[data-theme="pixelcraft"] .glow { border-radius:0; }
+
+/* ── Positions ────────────────────────────────────────────────── */
+.topLeft      { top:-22px; left:18px;   animation:float-drift-1 4.4s ease-in-out infinite alternate; }
+.topRight     { top:-22px; right:18px;  animation:float-drift-2 5.0s ease-in-out infinite alternate; }
+.rightCenter  { top:50%;   right:-42px; animation:float-drift-3 4.2s ease-in-out infinite alternate; }
+.bottomLeft   { bottom:-22px; left:32px;  animation:float-drift-4 4.8s ease-in-out infinite alternate; }
+.bottomCenter { bottom:-28px; left:50%; transform:translateX(-50%); animation:float-drift-5 4.0s ease-in-out infinite alternate; }
+.bottomRight  { bottom:-22px; right:32px; animation:float-drift-6 5.2s ease-in-out infinite alternate; }
+
+/* ── Themes / Color Accents — icon + glow color only ─────────── */
+.theme_indigo .icon  { color:#818cf8; }
+.theme_indigo .glow  { background:rgba(99,102,241,0.35); }
+.theme_indigo .stickerInner { border-color:rgba(99,102,241,0.3); }
+
+.theme_cyan .icon  { color:var(--t-accent-light); }
+.theme_cyan .glow  { background:rgba(6,182,212,0.3); }
+.theme_cyan .stickerInner { border-color:var(--t-accent-border); }
+
+.theme_emerald .icon { color:#34d399; }
+.theme_emerald .glow { background:rgba(16,185,129,0.3); }
+.theme_emerald .stickerInner { border-color:rgba(16,185,129,0.3); }
+
+.theme_amber .icon { color:#fbbf24; }
+.theme_amber .glow { background:rgba(245,158,11,0.3); }
+.theme_amber .stickerInner { border-color:rgba(245,158,11,0.3); }
+
+.theme_violet .icon { color:var(--t-eyebrow-color); }
+.theme_violet .glow { background:rgba(139,92,246,0.3); }
+.theme_violet .stickerInner { border-color:var(--t-eyebrow-border); }
+
+.theme_gold .icon { color:#c9a227; }
+.theme_gold .glow { background:rgba(201,162,39,0.3); }
+.theme_gold .stickerInner { border-color:rgba(201,162,39,0.45); }
+
+/* Imperium luxury royal stickers */
+[data-theme="imperium"] .stickerInner {
+  border-radius: 9999px;
+  background: #080808 !important;
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(229, 199, 102, 0.2);
+}
+[data-theme="imperium"] .text {
+  color: #f5e7b2;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+/* ── Float animations ─────────────────────────────────────────── */
+@keyframes float-drift-1 { from{transform:translateY(0) rotate(0deg)} to{transform:translateY(-8px) rotate(1deg)} }
+@keyframes float-drift-2 { from{transform:translateY(0) rotate(0deg)} to{transform:translateY(-10px) rotate(-1deg)} }
+@keyframes float-drift-3 { from{transform:translateY(0) rotate(0deg)} to{transform:translateY(-7px) rotate(0.5deg)} }
+@keyframes float-drift-4 { from{transform:translateY(0) rotate(0deg)} to{transform:translateY(-9px) rotate(-0.8deg)} }
+@keyframes float-drift-5 { from{transform:translateX(-50%) translateY(0)} to{transform:translateX(-50%) translateY(-8px)} }
+@keyframes float-drift-6 { from{transform:translateY(0) rotate(0deg)} to{transform:translateY(-11px) rotate(1.2deg)} }

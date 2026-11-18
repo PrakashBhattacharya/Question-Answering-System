@@ -1,0 +1,192 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* =========================================
+   1. PIXELCRAFT: 8-Bit Voxel Health Bar
+   ========================================= */
+.pixelContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #142016;
+  border: 2px solid #16a34a;
+  padding: 0.35rem 0.6rem;
+  box-shadow: 2px 2px 0 #000;
+  font-family: 'Press Start 2P', monospace, monospace;
+}
+
+.pixelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  color: #84cc16;
+  letter-spacing: 0.05em;
+}
+
+.pixelBlocks {
+  display: flex;
+  gap: 3px;
+}
+
+.pixelBlock {
+  width: 8px;
+  height: 12px;
+  background: #1a2e1d;
+  border: 1px solid #14532d;
+  transition: background 0.3s;
+}
+
+.pixelBlockFilled {
+  background: #22c55e;
+  border-color: #86efac;
+  box-shadow: 0 0 4px #22c55e;
+}
+
+/* =========================================
+   2. IMPERIUM: Royal Golden Ring
+   ========================================= */
+.imperiumContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(20, 16, 5, 0.75);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.15);
+}
+
+.svgRing {
+  width: 36px;
+  height: 36px;
+  transform: rotate(-90deg);
+}
+
+.imperiumText {
+  display: flex;
+  flex-direction: column;
+}
+
+.imperiumScore {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fef08a;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.imperiumTier {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: #d4af37;
+}
+
+/* =========================================
+   3. ORIGINAL: Neon Cyber Pulse
+   ========================================= */
+.originalContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
+}
+
+.originalText {
+  display: flex;
+  flex-direction: column;
+}
+
+.originalScore {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: -0.01em;
+}
+
+.originalLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+/* =========================================
+   4. VOID: Monochromatic Telemetry Meter
+   ========================================= */
+.voidContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #000;
+  border: 1px solid #333;
+  padding: 0.35rem 0.65rem;
+  font-family: monospace;
+}
+
+.voidHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: #aaa;
+  letter-spacing: 0.05em;
+}
+
+.voidBar {
+  width: 90px;
+  height: 5px;
+  background: #222;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.voidFill {
+  height: 100%;
+  background: #fff;
+  transition: width 0.5s ease;
+}
+
+/* =========================================
+   5. CLOUD & EMBER
+   ========================================= */
+.cloudContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 0.3rem 0.7rem 0.3rem 0.4rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.cloudScore {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.emberContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 248, 240, 0.9);
+  border: 1px solid rgba(234, 88, 12, 0.3);
+  padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.1);
+}
+
+.emberScore {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ea580c;
+}
