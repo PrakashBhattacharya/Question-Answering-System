@@ -4,7 +4,7 @@
  * Falls back gracefully to a demo profile if backend is offline.
  */
 
-const BASE_URL = '/api'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
 // Demo fallback profile used when backend is unreachable
 const DEMO_PROFILE = {
@@ -229,7 +229,7 @@ export const documentApi = {
     const formData = new FormData()
     formData.append('file', file)
     const token = localStorage.getItem('contextiq_token')
-    const response = await fetch('/api/documents/extract', {
+    const response = await fetch(`${BASE_URL}/documents/extract`, {
       method: 'POST',
       body: formData,
       headers: {
