@@ -276,31 +276,49 @@ function extractLocalAnswer(context, question, model = 'deberta', confidenceThre
   if (intent === 'date') {
     const dateRegex = /\b((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?(?:\s+at\s+\d{1,2}:\d{2}(?:\s+[A-Z]{3,4})?)?|\d{4})\b/gi
     let dm
-    while ((dm = dateRegex.exec(bestSent.clean)) !== null) {
+    while ((dm = dateRegex.exec(rawCtx)) !== null) {
       const ans = dm[0].trim()
-      const pos = rawCtx.indexOf(ans, bestSent.start)
-      if (pos !== -1) candidates.push({ answer: ans, score: 0.942, start: pos, end: pos + ans.length })
+      const pos = dm.index
+      let candScore = 0.942
+      const nearby = rawCtx.slice(Math.max(0, pos - 120), Math.min(rawCtx.length, pos + 120)).toLowerCase()
+      for (const kw of qKeywords) {
+        if (nearby.includes(kw)) candScore += 0.05
+      }
+      candidates.push({ answer: ans, score: Math.min(0.99, candScore), start: pos, end: pos + ans.length })
     }
+    candidates.sort((a, b) => b.score - a.score)
   } else if (intent === 'quantity') {
     const quantRegex = /\b\d+(?:[.,]\d+)?(?:\s*(?:pounds|kg|meters|feet|percent|%|hours|minutes|seconds|engines|stages|qubits|bits))(?:\s*\([^)]+\))?/gi
     let qm
-    while ((qm = quantRegex.exec(bestSent.clean)) !== null) {
+    while ((qm = quantRegex.exec(rawCtx)) !== null) {
       const ans = qm[0].trim()
-      const pos = rawCtx.indexOf(ans, bestSent.start)
-      if (pos !== -1) candidates.push({ answer: ans, score: 0.925, start: pos, end: pos + ans.length })
+      const pos = qm.index
+      let candScore = 0.925
+      const nearby = rawCtx.slice(Math.max(0, pos - 120), Math.min(rawCtx.length, pos + 120)).toLowerCase()
+      for (const kw of qKeywords) {
+        if (nearby.includes(kw)) candScore += 0.05
+      }
+      candidates.push({ answer: ans, score: Math.min(0.99, candScore), start: pos, end: pos + ans.length })
     }
+    candidates.sort((a, b) => b.score - a.score)
   } else if (intent === 'person') {
     const personRegex = /\b(?:Commander\s+|President\s+|pilot\s+)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b/g
     let pm
-    while ((pm = personRegex.exec(bestSent.clean)) !== null) {
+    while ((pm = personRegex.exec(rawCtx)) !== null) {
       const ans = pm[0].trim()
+      const pos = pm.index
       const ansTokens = ans.toLowerCase().split(/\s+/)
       const isRepetition = ansTokens.every((t) => qTokens.includes(t))
       if (!isRepetition) {
-        const pos = rawCtx.indexOf(ans, bestSent.start)
-        if (pos !== -1) candidates.push({ answer: ans, score: 0.915, start: pos, end: pos + ans.length })
+        let candScore = 0.915
+        const nearby = rawCtx.slice(Math.max(0, pos - 120), Math.min(rawCtx.length, pos + 120)).toLowerCase()
+        for (const kw of qKeywords) {
+          if (nearby.includes(kw)) candScore += 0.05
+        }
+        candidates.push({ answer: ans, score: Math.min(0.99, candScore), start: pos, end: pos + ans.length })
       }
     }
+    candidates.sort((a, b) => b.score - a.score)
   }
 
   if (candidates.length === 0) {
