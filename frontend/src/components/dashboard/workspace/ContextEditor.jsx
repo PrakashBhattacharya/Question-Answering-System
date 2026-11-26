@@ -201,6 +201,7 @@ export default function ContextEditor({
     <div className={`${styles.container} ${isExpanded ? styles.expanded : ''}`}>
       {/* Hidden file input supporting PDF, PNG/images, Word, and text */}
       <input
+        id="context-file-input"
         ref={fileInputRef}
         type="file"
         accept={SUPPORTED_ACCEPT_STRING}
