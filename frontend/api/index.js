@@ -408,5 +408,17 @@ export default async function handler(req, res) {
     }
   }
 
+  // 16. /api/documents/extract
+  if (pathname === '/api/documents/extract') {
+    return res.status(200).json({
+      status: 'success',
+      filename: 'document',
+      text: '',
+      pages: 1,
+      character_count: 0,
+      word_count: 0,
+    });
+  }
+
   return res.status(404).json({ detail: `Endpoint not found: ${pathname}` });
 }

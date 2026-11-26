@@ -555,7 +555,12 @@ export default function QueryWorkspace({
                 }}
                 onSelectView={onSelectView}
                 onTriggerUpload={() => {
-                  document.getElementById('context-input')?.focus()
+                  const fileInput = document.getElementById('context-file-input')
+                  if (fileInput) {
+                    fileInput.click()
+                  } else {
+                    document.getElementById('context-input')?.focus()
+                  }
                 }}
               />
             </div>
