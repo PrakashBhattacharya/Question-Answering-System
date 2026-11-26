@@ -138,10 +138,14 @@ export default function ContextEditor({
       setShowUrlInput(false)
       setUrlValue('')
       if (onAddToast) {
+        const words = typeof result?.word_count === 'number'
+          ? result.word_count
+          : (result?.text ? result.text.split(/\s+/).filter(Boolean).length : 0)
+        const title = result?.title || urlValue.trim()
         onAddToast({
           type: 'success',
           title: 'URL Fetched',
-          message: `Loaded ${result.word_count.toLocaleString()} words from "${result.title || urlValue}"`,
+          message: `Loaded ${words.toLocaleString()} words from "${title}"`,
         })
       }
     } catch (err) {
@@ -288,7 +292,8 @@ export default function ContextEditor({
         <div className={styles.urlBar}>
           <Globe size={14} className={styles.urlBarIcon} />
           <input
-            type="url"
+            type="text"
+            inputMode="url"
             className={styles.urlInput}
             placeholder="https://en.wikipedia.org/wiki/Apollo_11"
             value={urlValue}

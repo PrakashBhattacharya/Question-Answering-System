@@ -476,10 +476,66 @@ export const summarizeApi = {
 
 export const urlApi = {
   /** Fetch a public URL and extract clean text for QA context. */
-  fetch: async (url, maxChars = 10000) => {
-    return request('/url/fetch', {
-      method: 'POST',
-      body: JSON.stringify({ url, max_chars: maxChars }),
-    })
+  fetch: async (url, maxChars = 15000) => {
+    let cleanUrl = (url || '').trim()
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = `https://${cleanUrl}`
+    }
+
+    try {
+      const data = await request('/url/fetch', {
+        method: 'POST',
+        body: JSON.stringify({ url: cleanUrl, max_chars: maxChars }),
+      })
+      if (data && data.text) {
+        return {
+          ...data,
+          title: data.title || cleanUrl,
+          word_count: data.word_count ?? data.text.split(/\s+/).filter(Boolean).length,
+          character_count: data.character_count ?? data.text.length,
+        }
+      }
+    } catch (primaryErr) {
+      // Direct CORS gateway fallback if serverless fetch encounters target restrictions
+      try {
+        const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(cleanUrl)}`)
+        if (proxyRes.ok) {
+          const proxyData = await proxyRes.json()
+          if (proxyData.contents) {
+            const html = proxyData.contents
+            const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)
+            const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : cleanUrl
+
+            let text = html
+              .replace(/<!--[\s\S]*?-->/g, ' ')
+              .replace(/<(script|style|noscript|svg|nav|footer|header|aside|iframe|button|form|head)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+              .replace(/<(p|div|h[1-6]|li|blockquote)[^>]*>/gi, '\n')
+              .replace(/<[^>]+>/g, ' ')
+              .replace(/&nbsp;/gi, ' ')
+              .replace(/&amp;/gi, '&')
+              .replace(/&quot;/gi, '"')
+              .replace(/&#39;/gi, "'")
+              .replace(/&lt;/gi, '<')
+              .replace(/&gt;/gi, '>')
+              .replace(/\s+/g, ' ')
+              .trim()
+              .slice(0, maxChars)
+
+            if (text.length > 40) {
+              const words = text.split(/\s+/).filter(Boolean)
+              return {
+                url: cleanUrl,
+                title,
+                text,
+                word_count: words.length,
+                character_count: text.length,
+              }
+            }
+          }
+        }
+      } catch {}
+
+      throw primaryErr
+    }
   },
 }

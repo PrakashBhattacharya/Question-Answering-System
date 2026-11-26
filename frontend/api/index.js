@@ -396,15 +396,94 @@ export default async function handler(req, res) {
 
   // 15. /api/url/fetch
   if (pathname === '/api/url/fetch') {
-    const { url = '', max_chars = 10000 } = req.body || {};
+    const { url = '', max_chars = 15000 } = req.body || {};
+    if (!url || !url.trim()) {
+      return res.status(422).json({ detail: 'URL cannot be empty.' });
+    }
+
+    let targetUrl = url.trim();
+    if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+      targetUrl = `https://${targetUrl}`;
+    }
+
     try {
-      const targetUrl = url.trim().startsWith('http') ? url.trim() : `https://${url.trim()}`;
-      const response = await fetch(targetUrl);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+      const response = await fetch(targetUrl, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 (compatible; ContextIQ-Fetcher/2.0)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9',
+        },
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        return res.status(response.status >= 400 && response.status < 500 ? 422 : 502).json({
+          detail: `Could not fetch URL (HTTP ${response.status}). The page may be private or protected.`,
+        });
+      }
+
       const html = await response.text();
-      const text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max_chars);
-      return res.status(200).json({ url: targetUrl, text, length: text.length });
+
+      // Extract title
+      const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+      let title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : targetUrl;
+      title = title.replace(/\s+/g, ' ').slice(0, 150);
+
+      // Remove unwanted blocks and large data attributes
+      let cleaned = html
+        .replace(/<!--[\s\S]*?-->/g, ' ')
+        .replace(/<(head|script|style|template|noscript|svg|nav|footer|header|aside|iframe|button|form)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+        .replace(/\s+data-[\w-]+=(["'])(?:(?!\1)[\s\S])*?\1/gi, ' ');
+
+      // Convert structural tags to breaks, strip remaining tags, decode entities
+      let text = cleaned
+        .replace(/<(p|div|h[1-6]|li|blockquote|tr|section|article)[^>]*>/gi, '\n')
+        .replace(/<br\s*[\/]?>/gi, '\n')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\[(?:edit|\d+|citation needed)\]/gi, '')
+        .replace(/\{\{[^}]*\}\}/g, '')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&quot;/gi, '"')
+        .replace(/&#39;/gi, "'")
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
+        .replace(/[ \t]+/g, ' ')
+        .replace(/\n\s*\n+/g, '\n\n')
+        .replace(/^(?:Jump to content|Jump to navigation|Jump to search)\s*/gi, '')
+        .trim();
+
+      const limit = typeof max_chars === 'number' && max_chars > 0 ? max_chars : 15000;
+      text = text.slice(0, limit).trim();
+
+      if (text.length < 30) {
+        return res.status(422).json({
+          detail: 'Could not extract readable text from this webpage. It may require JavaScript or login.',
+        });
+      }
+
+      const words = text.split(/\s+/).filter(Boolean);
+
+      return res.status(200).json({
+        url: targetUrl,
+        title: title || targetUrl,
+        text,
+        word_count: words.length,
+        character_count: text.length,
+        length: text.length,
+      });
     } catch (e) {
-      return res.status(500).json({ detail: e.message });
+      const isTimeout = e.name === 'AbortError';
+      return res.status(isTimeout ? 408 : 500).json({
+        detail: isTimeout
+          ? 'Request timed out. The URL took too long to respond.'
+          : `Failed to fetch URL: ${e.message}`,
+      });
     }
   }
 
